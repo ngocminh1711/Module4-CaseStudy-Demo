@@ -22,6 +22,12 @@ userRouter.get('/info',(req, res, next) => {
 userRouter.get('/delete/:userId',(req, res, next) => {
    userController.deleteUser(req, res, next)
 })
+userRouter.get('/update/:userId',(req, res, next) => {
+   userController.showFormUpdate(req, res, next)
+})
+userRouter.post('/update/:userId',upload.none(),(req, res, next) =>{
+   userController.updateUser(req, res, next)
+})
 
 
 export default userRouter;

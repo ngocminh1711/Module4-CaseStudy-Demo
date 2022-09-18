@@ -37,8 +37,23 @@ class UserController {
     }
     async deleteUser(req, res, next) {
         let data = req.params.userId;
-        console.log(data);
-        await user_schema_1.default.deleteOne({ _id: req.params.userId });
+        await user_schema_1.default.deleteOne({ _id: data });
+        res.redirect('/admin/info');
+    }
+    showFormUpdate(req, res, next) {
+        res.render('update-user');
+    }
+    async updateUser(req, res, next) {
+        let data = {
+            name: req.body.name,
+            username: req.body.username,
+            password: req.body.password,
+            address: req.body.address,
+            email: req.body.email,
+            phone: req.body.phone
+        };
+        let userId = req.params.userId;
+        await user_schema_1.default.findOneAndUpdate({ _id: userId }, { name: data.name, userName: data.username, password: data.password, address: data.address, email: data.email, phone: data.phone });
         res.redirect('/admin/info');
     }
 }

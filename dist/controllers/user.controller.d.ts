@@ -5,4 +5,6 @@ export declare class UserController {
     showFormCreateUser(req: Request, res: Response, next: NextFunction): void;
     createUser(req: Request, res: Response, next: NextFunction): Promise<void>;
     deleteUser(req: Request, res: Response, next: NextFunction): Promise<void>;
+    showFormUpdate(req: Request, res: Response, next: NextFunction): void;
+    updateUser(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

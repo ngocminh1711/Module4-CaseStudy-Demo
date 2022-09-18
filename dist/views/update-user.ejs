@@ -5,11 +5,9 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Tables / General - NiceAdmin Bootstrap Template</title>
+    <title>Forms / Layouts - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-    <!-- Awesome i -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
     <!-- Favicons -->
     <link href="/img/favicon.png" rel="icon">
@@ -361,17 +359,17 @@
         </li><!-- End Components Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="forms-elements.html">
                         <i class="bi bi-circle"></i><span>Form Elements</span>
                     </a>
                 </li>
                 <li>
-                    <a href="forms-layouts.html">
+                    <a href="forms-layouts.html" class="active">
                         <i class="bi bi-circle"></i><span>Form Layouts</span>
                     </a>
                 </li>
@@ -389,12 +387,12 @@
         </li><!-- End Forms Nav -->
 
         <li class="nav-item">
-            <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="tables-general.html" class="active">
+                    <a href="tables-general.html">
                         <i class="bi bi-circle"></i><span>General Tables</span>
                     </a>
                 </li>
@@ -510,52 +508,78 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>General Tables</h1>
+        <h1>Form Layouts</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Tables</li>
-                <li class="breadcrumb-item active">General</li>
+                <li class="breadcrumb-item">Forms</li>
+                <li class="breadcrumb-item active">Layouts</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
-
     <section class="section">
         <div class="row">
             <div class="col-lg-10">
 
+
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">User Information</h5>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">User Name</th>
-                                <th scope="col">Password</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Address</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <% users.forEach((user,index) => { %>
-                            <tr class="table-primary">
-                                <th scope="row"><%= index + 1 %></th>
-                                <td><%= user.userName %></td>
-                                <td><%= user.password %></td>
-                                <td><%= user.name %></td>
-                                <td><%= user.email %></td>
-                                <td><%= user.phone %></td>
-                                <td><%= user.address %></td>
-                                <td><a type="button" onclick="return confirm('Are you sure to delete?')" href="/admin/delete/<%=user._id %>" ><i class="fas fa-trash-alt" style="color: darkred"></i></a></td>
-                                <td><a type="button"  href="/admin/update/<%=user._id %>" ><i class="fas fa-user-edit" style="color: blue"></i></a></td>
-                            </tr>
-                            <% })%>
-                            </tbody>
-                        </table>
-                        <!-- End Table Variants -->
+                        <h5 class="card-title">User Update Form</h5>
+
+                        <!-- Multi Columns Form -->
+                        <form class="row g-3" method="post" action="" enctype="multipart/form-data">
+                            <div class="col-md-12">
+                                <label for="inputName5" class="form-label">Full Name</label>
+                                <input type="text" name="name" class="form-control" id="inputName5">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail5" class="form-label">User Name</label>
+                                <input type="text" name="username" class="form-control" id="inputEmail5">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword5" class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control" id="inputPassword5">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputAddress5" class="form-label">Address</label>
+                                <input type="text" name="address" class="form-control" id="inputAddres5s">
+                            </div>
+                            <div class="col-md-8">
+                                <label  class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label  class="form-label">Phone Number</label>
+                                <input type="number" name="phone" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="inputCity">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inputState" class="form-label">State</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputZip" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="inputZip">
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                                    <label class="form-check-label" for="gridCheck">
+                                        Check me out
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </form><!-- End Multi Columns Form -->
 
                     </div>
                 </div>
