@@ -18,5 +18,8 @@ userRouter.get('/create', (req, res, next) => {
 userRouter.post('/create', upload.none(), (req, res, next) => {
     userController.createUser(req, res, next);
 });
+userRouter.get('/info', (req, res, next) => {
+    userController.showFormInfo(req, res, next);
+});
 exports.default = userRouter;
 //# sourceMappingURL=user.router.js.map

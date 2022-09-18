@@ -9,6 +9,11 @@ class UserController {
     showFormHomePage(req, res, next) {
         res.render('index');
     }
+    async showFormInfo(req, res, next) {
+        let users = await user_schema_1.default.find();
+        console.log(users);
+        res.render('info-user-list', { users: users });
+    }
     showFormCreateUser(req, res, next) {
         res.render('create-user');
     }

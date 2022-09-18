@@ -7,6 +7,11 @@ export class UserController {
     showFormHomePage(req: Request, res: Response, next: NextFunction){
         res.render('index')
     }
+    async showFormInfo(req: Request, res: Response, next: NextFunction){
+        let users = await User.find();
+        console.log(users)
+        res.render('info-user-list', {users: users})
+    }
     showFormCreateUser(req: Request, res: Response, next: NextFunction){
         res.render('create-user')
     }
