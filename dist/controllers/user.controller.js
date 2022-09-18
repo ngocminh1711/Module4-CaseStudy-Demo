@@ -11,7 +11,6 @@ class UserController {
     }
     async showFormInfo(req, res, next) {
         let users = await user_schema_1.default.find();
-        console.log(users);
         res.render('info-user-list', { users: users });
     }
     showFormCreateUser(req, res, next) {
@@ -35,6 +34,12 @@ class UserController {
         catch (error) {
             res.status(503).json({ message: error.message });
         }
+    }
+    async deleteUser(req, res, next) {
+        let data = req.params.userId;
+        console.log(data);
+        await user_schema_1.default.deleteOne({ _id: req.params.userId });
+        res.redirect('/admin/info');
     }
 }
 exports.UserController = UserController;

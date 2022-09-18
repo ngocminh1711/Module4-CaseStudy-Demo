@@ -19,6 +19,9 @@ userRouter.post('/create',upload.none(),(req, res, next) => {
 userRouter.get('/info',(req, res, next) => {
    userController.showFormInfo(req, res, next)
 })
+userRouter.get('/delete/:userId',(req, res, next) => {
+   userController.deleteUser(req, res, next)
+})
 
 
 export default userRouter;

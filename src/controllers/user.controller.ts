@@ -9,7 +9,7 @@ export class UserController {
     }
     async showFormInfo(req: Request, res: Response, next: NextFunction){
         let users = await User.find();
-        console.log(users)
+
         res.render('info-user-list', {users: users})
     }
     showFormCreateUser(req: Request, res: Response, next: NextFunction){
@@ -32,5 +32,11 @@ export class UserController {
         catch (error) {
                 res.status(503).json({message: error.message})
         }
+    }
+    async deleteUser(req: Request, res: Response, next: NextFunction) {
+        let data = req.params.userId
+        console.log(data)
+        await User.deleteOne({ _id: req.params.userId})
+        res.redirect('/admin/info')
     }
 }

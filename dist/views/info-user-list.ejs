@@ -8,6 +8,8 @@
     <title>Tables / General - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+    <!-- Awesome i -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
     <!-- Favicons -->
     <link href="/img/favicon.png" rel="icon">
@@ -547,6 +549,7 @@
                                 <td><%= user.email %></td>
                                 <td><%= user.phone %></td>
                                 <td><%= user.address %></td>
+                                <td><a type="button" onclick="return confirm('Are you sure to delete?')" href="/admin/delete/<%=user._id %>" ><i class="fas fa-trash-alt" style="color: darkred"></i></a></td>
                             </tr>
                             <% })%>
                             </tbody>
