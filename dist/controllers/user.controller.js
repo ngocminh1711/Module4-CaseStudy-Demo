@@ -6,8 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_schema_1 = __importDefault(require("../models/schemas/user.schema"));
 class UserController {
-    showFormHomePage(req, res, next) {
-        res.render('index');
+    async showFormHomePage(req, res, next) {
+        let users = await user_schema_1.default.find();
+        res.render('index', { users: users });
     }
     async showFormInfo(req, res, next) {
         let users = await user_schema_1.default.find();
@@ -20,9 +21,13 @@ class UserController {
         try {
             const data = {
                 username: req.body.username,
-                password: req.body.password
+                password: req.body.password,
+                name: req.body.name,
+                email: req.body.email,
+                phone: req.body.phone,
+                address: req.body.address
             };
-            const user = new user_schema_1.default({ userName: data.username, password: data.password });
+            const user = new user_schema_1.default({ userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.address });
             await user.save();
             if (user) {
                 res.redirect('/admin');
@@ -55,6 +60,11 @@ class UserController {
         let userId = req.params.userId;
         await user_schema_1.default.findOneAndUpdate({ _id: userId }, { name: data.name, userName: data.username, password: data.password, address: data.address, email: data.email, phone: data.phone });
         res.redirect('/admin/info');
+    }
+    async searchUser(req, res, next) {
+        let keyword = req.query.keywordUser;
+        let users = await user_schema_1.default.find({ userName: keyword });
+        res.render('info-user-list', { users: users });
     }
 }
 exports.UserController = UserController;

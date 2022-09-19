@@ -4,8 +4,9 @@ import {Request, Response, NextFunction} from "express";
 
 export class UserController {
 
-    showFormHomePage(req: Request, res: Response, next: NextFunction){
-        res.render('index')
+    async showFormHomePage(req: Request, res: Response, next: NextFunction){
+        let users = await User.find();
+        res.render('index', {users: users});
     }
     async showFormInfo(req: Request, res: Response, next: NextFunction){
         let users = await User.find();
@@ -19,8 +20,12 @@ export class UserController {
         try {
             const data = {
                 username: req.body.username,
-                password: req.body.password };
-            const user = new User({userName: data.username, password: data.password});
+                password: req.body.password,
+                name: req.body.name,
+                email: req.body.email,
+                phone: req.body.phone,
+                address: req.body.address};
+            const user = new User({userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.address});
             await user.save();
             if (user){
                 res.redirect('/admin')
@@ -53,5 +58,10 @@ export class UserController {
         let userId = req.params.userId
         await User.findOneAndUpdate({_id : userId}, {name: data.name , userName: data.username , password: data.password , address: data.address , email: data.email , phone: data.phone})
         res.redirect('/admin/info')
+    }
+    async searchUser(req: Request, res: Response, next: NextFunction) {
+        let keyword = req.query.keywordUser
+        let users = await User.find({userName: keyword})
+        res.render('info-user-list', {users: users})
     }
 }

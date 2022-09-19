@@ -28,6 +28,10 @@ userRouter.get('/update/:userId',(req, res, next) => {
 userRouter.post('/update/:userId',upload.none(),(req, res, next) =>{
    userController.updateUser(req, res, next)
 })
+userRouter.get('/search',(req, res, next) =>{
+   userController.searchUser(req, res, next)
+    }
+)
 
 
 export default userRouter;
