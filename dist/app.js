@@ -31,6 +31,7 @@ const path = __importStar(require("path"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const user_router_1 = __importDefault(require("./routers/user.router"));
 const ConnectDB_1 = require("./models/ConnectDB");
+const product_router_1 = __importDefault(require("./routers/product.router"));
 const PORT = 8000;
 const app = (0, express_1.default)();
 app.set('view engine', 'ejs');
@@ -45,6 +46,7 @@ db.connect().then(() => {
     console.log(err.message);
 });
 app.use('/admin', user_router_1.default);
+app.use('/admin/product', product_router_1.default);
 app.listen(PORT, function () {
     console.log('http://localhost:' + PORT);
 });

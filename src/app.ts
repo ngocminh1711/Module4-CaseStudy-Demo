@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import userRouter from "./routers/user.router";
 import {ConnectDB} from "./models/ConnectDB";
+import productRouter from "./routers/product.router";
 
 
 
@@ -32,6 +33,7 @@ db.connect().then(() => {
 
 
 app.use('/admin', userRouter)
+app.use('/admin/product', productRouter)
 
 
 app.listen(PORT, function() {
