@@ -57,9 +57,9 @@
                                     <img src="<%= product.image %>" alt="Generic placeholder image" width="200"
                                          class="ml-lg-5 order-1 order-lg-2">
                                 </div>
-                                <a href="/admin/product/delete" class="btn btn-danger">Delete</a>
+                                <a href="/admin/product/delete/<%= product._id%>" class="btn btn-danger">Delete</a>
+                                <a href="/admin/product/update/<%= product._id%>" class="btn btn-primary">Update</a>
                             </div>
-
                         </div>
                     </li>
                 <% }) %>

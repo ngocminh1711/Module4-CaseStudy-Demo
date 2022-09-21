@@ -5,10 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_schema_1 = __importDefault(require("../models/schemas/user.schema"));
+const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
 class UserController {
     async showFormHomePage(req, res, next) {
         let users = await user_schema_1.default.find();
-        res.render('index', { users: users });
+        let products = await product_schema_1.default.find();
+        let data = {
+            users: users,
+            products: products
+        };
+        console.log(data);
+        res.render('index', { data: data });
     }
     async showFormInfo(req, res, next) {
         let users = await user_schema_1.default.find();
@@ -63,7 +70,11 @@ class UserController {
     }
     async searchUser(req, res, next) {
         let keyword = req.query.keywordUser;
-        let users = await user_schema_1.default.find({ userName: keyword });
+        let users = await user_schema_1.default.find({ $or: [{ userName: { $regex: `${keyword}`, $options: 'i' } },
+                { address: { $regex: `${keyword}`, $options: 'i' } },
+                { name: { $regex: `${keyword}`, $options: 'i' } },
+                { email: { $regex: `${keyword}`, $options: 'i' } }
+            ] });
         res.render('info-user-list', { users: users });
     }
 }

@@ -1,12 +1,19 @@
 import User from "../models/schemas/user.schema";
 import {Request, Response, NextFunction} from "express";
+import Product from "../models/schemas/product.schema";
 
 
 export class UserController {
 
     async showFormHomePage(req: Request, res: Response, next: NextFunction){
         let users = await User.find();
-        res.render('index', {users: users});
+        let products = await Product.find();
+        let data = {
+            users: users,
+            products: products
+        }
+        console.log(data);
+        res.render('index', {data: data});
     }
     async showFormInfo(req: Request, res: Response, next: NextFunction){
         let users = await User.find();
@@ -61,7 +68,12 @@ export class UserController {
     }
     async searchUser(req: Request, res: Response, next: NextFunction) {
         let keyword = req.query.keywordUser
-        let users = await User.find({userName: keyword})
+        let users = await User.find(
+            {$or: [{userName: {$regex: `${keyword}`, $options: 'i'}},
+                        {address: {$regex: `${keyword}`, $options: 'i'}},
+                        {name: {$regex: `${keyword}`, $options: 'i'}},
+                        {email: {$regex: `${keyword}`, $options: 'i'}}
+                ]})
         res.render('info-user-list', {users: users})
     }
 }

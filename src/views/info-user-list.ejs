@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ('header/head-admin') %>
+
+<body>
+
+<!-- ======= Header ======= -->
+<%- include ('header/header-admin')%>
+
+<!-- ======= Sidebar ======= -->
+<%- include ('navbar/navbar')%>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>General Tables</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/info">Admin</a></li>
+                <li class="breadcrumb-item"><a href="/admin/info">Info Account</a> </li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Information</h5>
+                        <form method="get" action="/admin/search">
+                            <div class="input-group rounded">
+                                <input type="text" name="keywordUser" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <span class="input-group-text border-0" id="search-addon">
+                                <button type="submit"><i class="fas fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone Number</th>
+                                <th scope="col">Address</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% users.forEach((user,index) => { %>
+                            <tr class="table-primary">
+                                <th scope="row"><%= index + 1 %></th>
+                                <td><%= user.userName %></td>
+                                <td><%= user.password %></td>
+                                <td><%= user.name %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.phone %></td>
+                                <td><%= user.address %></td>
+                                <td><a type="button" onclick="return confirm('Are you sure to delete?')" href="/admin/delete/<%=user._id %>" ><i class="fas fa-trash-alt" style="color: darkred"></i></a></td>
+                                <td><a type="button"  href="/admin/update/<%=user._id %>" ><i class="fas fa-user-edit" style="color: blue"></i></a></td>
+                            </tr>
+                            <% })%>
+                            </tbody>
+                        </table>
+                        <!-- End Table Variants -->
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<%- include ('footer/footer-admin')%>
+</body>
+
+</html>
