@@ -1,6 +1,9 @@
 import User from "../models/schemas/user.schema";
 import {Request, Response, NextFunction} from "express";
 import Product from "../models/schemas/product.schema";
+import City from "../models/schemas/city.user.schema";
+
+
 
 
 export class UserController {
@@ -12,16 +15,17 @@ export class UserController {
             users: users,
             products: products
         }
-        console.log(data);
         res.render('index', {data: data});
     }
     async showFormInfo(req: Request, res: Response, next: NextFunction){
-        let users = await User.find();
+        let users = await User.find().populate('city');
 
-        res.render('info-user-list', {users: users})
+
+        res.render('info-user-list', { users: users})
     }
-    showFormCreateUser(req: Request, res: Response, next: NextFunction){
-        res.render('create-user')
+    async showFormCreateUser(req: Request, res: Response, next: NextFunction){
+        let data = await City.find()
+        res.render('create-user', { data: data })
     }
     async createUser(req: Request, res: Response, next: NextFunction){
         try {
@@ -31,8 +35,11 @@ export class UserController {
                 name: req.body.name,
                 email: req.body.email,
                 phone: req.body.phone,
-                address: req.body.address};
-            const user = new User({userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.address});
+                nameAddress: req.body.nameAddress,
+                city: req.body.cityId,
+               };
+            const user = new User({userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.nameAddress, city: data.city})
+
             await user.save();
             if (user){
                 res.redirect('/admin')
@@ -50,8 +57,9 @@ export class UserController {
         await User.deleteOne({ _id: data})
         res.redirect('/admin/info')
     }
-    showFormUpdate(req: Request, res: Response, next: NextFunction) {
-        res.render('update-user')
+    async showFormUpdate(req: Request, res: Response, next: NextFunction) {
+        let data = await City.find()
+        res.render('update-user', { data: data })
     }
     async updateUser(req: Request, res: Response, next: NextFunction) {
         let data = {
@@ -60,10 +68,11 @@ export class UserController {
             password: req.body.password,
             address: req.body.address,
             email: req.body.email,
-            phone: req.body.phone
+            phone: req.body.phone,
+            city: req.body.cityId
         }
         let userId = req.params.userId
-        await User.findOneAndUpdate({_id : userId}, {name: data.name , userName: data.username , password: data.password , address: data.address , email: data.email , phone: data.phone})
+        await User.findOneAndUpdate({_id : userId}, {name: data.name , userName: data.username , password: data.password , address: data.address , email: data.email , phone: data.phone, city: data.city }).populate('city')
         res.redirect('/admin/info')
     }
     async searchUser(req: Request, res: Response, next: NextFunction) {

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_schema_1 = __importDefault(require("../models/schemas/user.schema"));
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
+const city_user_schema_1 = __importDefault(require("../models/schemas/city.user.schema"));
 class UserController {
     async showFormHomePage(req, res, next) {
         let users = await user_schema_1.default.find();
@@ -14,15 +15,15 @@ class UserController {
             users: users,
             products: products
         };
-        console.log(data);
         res.render('index', { data: data });
     }
     async showFormInfo(req, res, next) {
-        let users = await user_schema_1.default.find();
+        let users = await user_schema_1.default.find().populate('city');
         res.render('info-user-list', { users: users });
     }
-    showFormCreateUser(req, res, next) {
-        res.render('create-user');
+    async showFormCreateUser(req, res, next) {
+        let data = await city_user_schema_1.default.find();
+        res.render('create-user', { data: data });
     }
     async createUser(req, res, next) {
         try {
@@ -32,9 +33,10 @@ class UserController {
                 name: req.body.name,
                 email: req.body.email,
                 phone: req.body.phone,
-                address: req.body.address
+                nameAddress: req.body.nameAddress,
+                city: req.body.cityId,
             };
-            const user = new user_schema_1.default({ userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.address });
+            const user = new user_schema_1.default({ userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.nameAddress, city: data.city });
             await user.save();
             if (user) {
                 res.redirect('/admin');
@@ -52,8 +54,9 @@ class UserController {
         await user_schema_1.default.deleteOne({ _id: data });
         res.redirect('/admin/info');
     }
-    showFormUpdate(req, res, next) {
-        res.render('update-user');
+    async showFormUpdate(req, res, next) {
+        let data = await city_user_schema_1.default.find();
+        res.render('update-user', { data: data });
     }
     async updateUser(req, res, next) {
         let data = {
@@ -62,10 +65,11 @@ class UserController {
             password: req.body.password,
             address: req.body.address,
             email: req.body.email,
-            phone: req.body.phone
+            phone: req.body.phone,
+            city: req.body.cityId
         };
         let userId = req.params.userId;
-        await user_schema_1.default.findOneAndUpdate({ _id: userId }, { name: data.name, userName: data.username, password: data.password, address: data.address, email: data.email, phone: data.phone });
+        await user_schema_1.default.findOneAndUpdate({ _id: userId }, { name: data.name, userName: data.username, password: data.password, address: data.address, email: data.email, phone: data.phone, city: data.city }).populate('city');
         res.redirect('/admin/info');
     }
     async searchUser(req, res, next) {
@@ -74,7 +78,7 @@ class UserController {
                 { address: { $regex: `${keyword}`, $options: 'i' } },
                 { name: { $regex: `${keyword}`, $options: 'i' } },
                 { email: { $regex: `${keyword}`, $options: 'i' } }
-            ] });
+            ] }).populate('city', name, { $regex: `${keyword}`, $options: 'i' });
         res.render('info-user-list', { users: users });
     }
 }

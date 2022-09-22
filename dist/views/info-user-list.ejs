@@ -49,11 +49,13 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone Number</th>
                                 <th scope="col">Address</th>
+                                <th scope="col">City</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
+
                             <% users.forEach((user,index) => { %>
                             <tr class="table-primary">
                                 <th scope="row"><%= index + 1 %></th>
@@ -63,6 +65,7 @@
                                 <td><%= user.email %></td>
                                 <td><%= user.phone %></td>
                                 <td><%= user.address %></td>
+                                <td><%= user.city.name %></td>
                                 <td><a type="button" onclick="return confirm('Are you sure to delete?')" href="/admin/delete/<%=user._id %>" ><i class="fas fa-trash-alt" style="color: darkred"></i></a></td>
                                 <td><a type="button"  href="/admin/update/<%=user._id %>" ><i class="fas fa-user-edit" style="color: blue"></i></a></td>
                             </tr>
@@ -70,7 +73,6 @@
                             </tbody>
                         </table>
                         <!-- End Table Variants -->
-
                     </div>
                 </div>
 

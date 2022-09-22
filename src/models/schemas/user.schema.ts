@@ -8,7 +8,7 @@ const userSchema = new Schema({
     email: String,
     phone: Number,
     address: String,
-
+    city: { type: Schema.Types.ObjectId, ref: 'City'  }
 })
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 export default User;

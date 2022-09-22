@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
+const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
 class ProductController {
-    showFormCreate(req, res, next) {
-        res.render('create-product');
+    async showFormCreate(req, res, next) {
+        let data = await idPro_product_schema_1.default.find();
+        res.render('create-product', { data: data });
     }
     async createProduct(req, res, next) {
         let data = {
@@ -18,13 +20,13 @@ class ProductController {
             detail: req.body.detailPro,
             image: req.body.imagePro
         };
-        const product = new product_schema_1.default({ name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image });
+        const product = new product_schema_1.default({ name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image }).populate('idPro');
         await product.save();
         res.redirect('/admin/product/info');
     }
     async showInfoListProduct(req, res, next) {
         try {
-            let products = await product_schema_1.default.find();
+            let products = await product_schema_1.default.find().populate('idPro');
             if (!products) {
                 res.status(503).json({ message: "Product not found" });
             }
@@ -49,8 +51,9 @@ class ProductController {
             res.status(404).json({ err: err.message });
         }
     }
-    showFormUpdate(req, res, next) {
-        res.render('update-product');
+    async showFormUpdate(req, res, next) {
+        let data = await idPro_product_schema_1.default.find();
+        res.render('update-product', { data: data });
     }
     async updateProduct(req, res, next) {
         let data = {
@@ -62,7 +65,7 @@ class ProductController {
             image: req.body.imagePro
         };
         let proId = req.params.id;
-        await product_schema_1.default.findOneAndUpdate({ _id: proId }, { name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image });
+        await product_schema_1.default.findOneAndUpdate({ _id: proId }, { name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image }).populate('idPro');
         res.redirect('/admin/product/info');
     }
 }

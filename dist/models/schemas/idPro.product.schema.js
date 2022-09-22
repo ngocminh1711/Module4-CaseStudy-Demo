@@ -24,14 +24,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const productSchema = new mongoose_1.Schema({
+const idProSchema = new mongoose_1.Schema({
     name: String,
-    price: Number,
-    amount: Number,
-    detail: String,
-    idPro: { type: mongoose_1.Schema.Types.ObjectId, ref: 'IdPro' },
-    image: String
 });
-const Product = mongoose_1.default.model('Product', productSchema);
-exports.default = Product;
-//# sourceMappingURL=product.schema.js.map
+const IdPro = mongoose_1.default.model('IdPro', idProSchema);
+exports.default = IdPro;
+//# sourceMappingURL=idPro.product.schema.js.map
