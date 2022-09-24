@@ -5,6 +5,12 @@ import mongoose from "mongoose";
 import userRouter from "./routers/user.router";
 import {ConnectDB} from "./models/ConnectDB";
 import productRouter from "./routers/product.router";
+import shopRouter from "./routers/shop.router";
+
+import passport from 'passport';
+import session from 'express-session'
+
+// const SQLiteStore = require('connect-sqlite3')(session);
 
 
 
@@ -19,6 +25,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json())
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
+//use session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.authenticate('session'));
 
 
 // connect MongoDB
@@ -34,6 +49,7 @@ db.connect().then(() => {
 
 app.use('/admin', userRouter)
 app.use('/admin/product', productRouter)
+app.use('/', shopRouter)
 
 
 app.listen(PORT, function() {

@@ -16,7 +16,6 @@ productRouter.post('/create', upload.none(), (req, res, next) => {
     productController.createProduct(req, res, next).catch(err => {
         res.status(501).json({ err: err.message });
     });
-    ;
 });
 productRouter.get('/info', (req, res, next) => {
     productController.showInfoListProduct(req, res, next).catch(err => {

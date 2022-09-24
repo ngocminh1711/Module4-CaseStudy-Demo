@@ -4,6 +4,8 @@ import {UserController} from "../controllers/user.controller";
 const userRouter = express.Router();
 const userController = new UserController();
 import multer from 'multer';
+import passport from "../middleware/auth.midd";
+
 const upload = multer();
 
 
@@ -45,6 +47,6 @@ userRouter.get('/search',(req, res, next) =>{
     }
 )
 
-
 export default userRouter;
+
 

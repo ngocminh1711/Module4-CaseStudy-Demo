@@ -78,7 +78,7 @@ class UserController {
                 { address: { $regex: `${keyword}`, $options: 'i' } },
                 { name: { $regex: `${keyword}`, $options: 'i' } },
                 { email: { $regex: `${keyword}`, $options: 'i' } }
-            ] }).populate('city', name, { $regex: `${keyword}`, $options: 'i' });
+            ] });
         res.render('info-user-list', { users: users });
     }
 }

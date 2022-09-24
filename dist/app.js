@@ -32,13 +32,23 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const user_router_1 = __importDefault(require("./routers/user.router"));
 const ConnectDB_1 = require("./models/ConnectDB");
 const product_router_1 = __importDefault(require("./routers/product.router"));
+const shop_router_1 = __importDefault(require("./routers/shop.router"));
+const passport_1 = __importDefault(require("passport"));
+const express_session_1 = __importDefault(require("express-session"));
 const PORT = 8000;
 const app = (0, express_1.default)();
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', './src/views');
 app.use(express_1.default.static(path.join(__dirname, 'public')));
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
+app.use(passport_1.default.initialize());
+app.use((0, express_session_1.default)({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport_1.default.authenticate('session'));
 const db = new ConnectDB_1.ConnectDB();
 db.connect().then(() => {
     console.log('Connected to MongoDB');
@@ -47,6 +57,7 @@ db.connect().then(() => {
 });
 app.use('/admin', user_router_1.default);
 app.use('/admin/product', product_router_1.default);
+app.use('/', shop_router_1.default);
 app.listen(PORT, function () {
     console.log('http://localhost:' + PORT);
 });

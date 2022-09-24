@@ -20,7 +20,6 @@ export class UserController {
     async showFormInfo(req: Request, res: Response, next: NextFunction){
         let users = await User.find().populate('city');
 
-
         res.render('info-user-list', { users: users})
     }
     async showFormCreateUser(req: Request, res: Response, next: NextFunction){
