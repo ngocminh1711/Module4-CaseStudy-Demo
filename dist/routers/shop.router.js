@@ -4,11 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const shop_controller_1 = require("../controllers/shop.controller");
 const auth_controller_1 = require("../controllers/auth.controller");
 const auth_midd_1 = __importDefault(require("../middleware/auth.midd"));
 const multer = require('multer');
 const upload = multer();
 const shopRouter = express_1.default.Router();
+const shopController = new shop_controller_1.ShopController();
 const authController = new auth_controller_1.AuthController();
 shopRouter.get('/login', function (req, res, next) {
     authController.showFormLogin(req, res, next);
@@ -17,5 +19,14 @@ shopRouter.post('/login', upload.none(), auth_midd_1.default.authenticate('local
     successRedirect: '/admin',
     failureRedirect: '/login'
 }));
+shopRouter.get('/', (req, res, next) => {
+    shopController.showFormShop(req, res, next);
+});
+shopRouter.get('/quannu', (req, res, next) => {
+    shopController.showFormQuanNu(req, res, next);
+});
+shopRouter.get('/aonu', (req, res, next) => {
+    shopController.showFormAoNu(req, res, next);
+});
 exports.default = shopRouter;
 //# sourceMappingURL=shop.router.js.map

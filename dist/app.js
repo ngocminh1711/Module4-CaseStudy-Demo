@@ -35,20 +35,24 @@ const product_router_1 = __importDefault(require("./routers/product.router"));
 const shop_router_1 = __importDefault(require("./routers/shop.router"));
 const passport_1 = __importDefault(require("passport"));
 const express_session_1 = __importDefault(require("express-session"));
+const SQLiteStore = require('connect-sqlite3')(express_session_1.default);
 const PORT = 8000;
 const app = (0, express_1.default)();
 app.set('view engine', 'ejs');
-app.set('views', './src/views');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express_1.default.static(path.join(__dirname, 'public')));
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
-app.use(passport_1.default.initialize());
 app.use((0, express_session_1.default)({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(passport_1.default.authenticate('session'));
+app.use(passport_1.default.initialize());
+app.use(express_1.default.urlencoded({ extended: false }));
 const db = new ConnectDB_1.ConnectDB();
 db.connect().then(() => {
     console.log('Connected to MongoDB');
