@@ -9,6 +9,10 @@ class ShopController {
     showFormShop(req, res, next) {
         res.render('homepage');
     }
+    async showFormAllProduct(req, res, next) {
+        let products = await product_schema_1.default.find();
+        res.render('all-product', { products: products });
+    }
     async showFormQuanNu(req, res, next) {
         let products = await product_schema_1.default.find();
         res.render('quannu', { products: products });

@@ -22,6 +22,9 @@ shopRouter.post('/login', upload.none(), auth_midd_1.default.authenticate('local
 shopRouter.get('/', (req, res, next) => {
     shopController.showFormShop(req, res, next);
 });
+shopRouter.get('/all-product', (req, res, next) => {
+    shopController.showFormAllProduct(req, res, next);
+});
 shopRouter.get('/quannu', (req, res, next) => {
     shopController.showFormQuanNu(req, res, next);
 });
