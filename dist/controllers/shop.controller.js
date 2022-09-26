@@ -5,20 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShopController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
+const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
 class ShopController {
     showFormShop(req, res, next) {
         res.render('homepage');
     }
-    async showFormAllProduct(req, res, next) {
-        let products = await product_schema_1.default.find();
-        res.render('all-product', { products: products });
+    async showFormQuanNam(req, res, next) {
+        let idPros = await idPro_product_schema_1.default.find({ name: "QNA" });
+        let products = await product_schema_1.default.find({ idPro: idPros }).populate('idPro');
+        res.render('quannam', { products: products });
     }
-    async showFormQuanNu(req, res, next) {
-        let products = await product_schema_1.default.find();
-        res.render('quannu', { products: products });
-    }
-    showFormAoNu(req, res, next) {
-        res.render('aonu');
+    async showFormAoNam(req, res, next) {
+        let idPros = await idPro_product_schema_1.default.find({ name: "ANA" });
+        let products = await product_schema_1.default.find({ idPro: idPros }).populate('idPro');
+        res.render('aonam', { products: products });
     }
 }
 exports.ShopController = ShopController;

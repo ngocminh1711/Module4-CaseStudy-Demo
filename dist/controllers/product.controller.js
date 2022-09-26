@@ -18,9 +18,10 @@ class ProductController {
             idPro: req.body.idPro,
             amount: req.body.amountPro,
             detail: req.body.detailPro,
-            image: req.body.imagePro
+            image1: req.body.imagePro1,
+            image2: req.body.imagePro2
         };
-        const product = new product_schema_1.default({ name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image }).populate('idPro');
+        const product = new product_schema_1.default({ name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image1: data.image1, image2: data.image2 }).populate('idPro');
         await product.save();
         res.redirect('/admin/product/info');
     }
@@ -52,8 +53,9 @@ class ProductController {
         }
     }
     async showFormUpdate(req, res, next) {
-        let data = await idPro_product_schema_1.default.find();
-        res.render('update-product', { data: data });
+        let idPro = await idPro_product_schema_1.default.find();
+        let product = await product_schema_1.default.findOne({ _id: req.params.id });
+        res.render('update-product', { idPro: idPro, product: product });
     }
     async updateProduct(req, res, next) {
         let data = {
@@ -62,11 +64,21 @@ class ProductController {
             idPro: req.body.idPro,
             amount: req.body.amountPro,
             detail: req.body.detailPro,
-            image: req.body.imagePro
+            image1: req.body.imagePro1,
+            image2: req.body.imagePro2
         };
         let proId = req.params.id;
-        await product_schema_1.default.findOneAndUpdate({ _id: proId }, { name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image }).populate('idPro');
+        await product_schema_1.default.findOneAndUpdate({ _id: proId }, { name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image1: data.image1, image2: data.image2 }).populate('idPro');
         res.redirect('/admin/product/info');
+    }
+    async searchProduct(req, res, next) {
+        let keyword = req.query.keywordPro;
+        let idPros = await idPro_product_schema_1.default.find({ $or: [{ name: { $regex: `${keyword}`, $options: 'i' } }] });
+        let products = await product_schema_1.default.find({ $or: [{ name: { $regex: `${keyword}`, $options: 'i' } },
+                { detail: { $regex: `${keyword}`, $options: 'i' } },
+                { idPro: idPros }
+            ] }).populate('idPro');
+        res.render('info-product-list', { products: products });
     }
 }
 exports.ProductController = ProductController;

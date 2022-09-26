@@ -23,14 +23,11 @@ shopRouter.post('/login',upload.none(), passport.authenticate('local', {
 shopRouter.get('/', (req, res, next) => {
     shopController.showFormShop(req, res, next);
 })
-shopRouter.get('/all-product', (req, res, next) => {
-    shopController.showFormAllProduct(req, res, next);
+shopRouter.get('/quannam', (req, res, next) => {
+    shopController.showFormQuanNam(req, res, next);
 })
-shopRouter.get('/quannu', (req, res, next) => {
-    shopController.showFormQuanNu(req, res, next);
-})
-shopRouter.get('/aonu', (req, res, next) => {
-    shopController.showFormAoNu(req, res, next);
+shopRouter.get('/aonam', (req, res, next) => {
+    shopController.showFormAoNam(req, res, next);
 })
 
 

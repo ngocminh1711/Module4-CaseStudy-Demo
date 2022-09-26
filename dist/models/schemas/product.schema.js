@@ -30,7 +30,8 @@ const productSchema = new mongoose_1.Schema({
     amount: Number,
     detail: String,
     idPro: { type: mongoose_1.Schema.Types.ObjectId, ref: 'IdPro' },
-    image: String
+    image1: String,
+    image2: String
 });
 const Product = mongoose_1.default.model('Product', productSchema);
 exports.default = Product;

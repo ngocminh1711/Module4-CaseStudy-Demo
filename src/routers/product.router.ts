@@ -32,6 +32,9 @@ productRouter.get('/update/:id', (req, res, next) => {
 productRouter.post('/update/:id',upload.none(), (req, res, next) => {
     productController.updateProduct(req, res, next)
 })
+productRouter.get('/search', (req, res, next) => {
+    productController.searchProduct(req, res, next)
+})
 
 
 export default productRouter;

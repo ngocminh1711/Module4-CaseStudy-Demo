@@ -9,7 +9,7 @@ import City from "../models/schemas/city.user.schema";
 export class UserController {
 
     async showFormHomePage(req: Request, res: Response, next: NextFunction){
-        let users = await User.find();
+        let users = await User.find({role: "user"})
         let products = await Product.find();
         let data = {
             users: users,
@@ -18,7 +18,7 @@ export class UserController {
         res.render('index', {data: data});
     }
     async showFormInfo(req: Request, res: Response, next: NextFunction){
-        let users = await User.find().populate('city');
+        let users = await User.find({role: 'user'}).populate('city');
 
         res.render('info-user-list', { users: users})
     }
@@ -76,12 +76,14 @@ export class UserController {
     }
     async searchUser(req: Request, res: Response, next: NextFunction) {
         let keyword = req.query.keywordUser
+        let cities = await City.find({$or: [{name: {$regex: `${keyword}`, $options: 'i'}}]})
         let users = await User.find(
             {$or: [{userName: {$regex: `${keyword}`, $options: 'i'}},
                         {address: {$regex: `${keyword}`, $options: 'i'}},
                         {name: {$regex: `${keyword}`, $options: 'i'}},
-                        {email: {$regex: `${keyword}`, $options: 'i'}}
-                ]})
+                        {email: {$regex: `${keyword}`, $options: 'i'}},
+                    {city: cities}
+                ]}).populate('city')
         res.render('info-user-list', {users: users})
     }
 }

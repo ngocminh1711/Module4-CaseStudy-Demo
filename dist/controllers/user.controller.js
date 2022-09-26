@@ -9,7 +9,7 @@ const product_schema_1 = __importDefault(require("../models/schemas/product.sche
 const city_user_schema_1 = __importDefault(require("../models/schemas/city.user.schema"));
 class UserController {
     async showFormHomePage(req, res, next) {
-        let users = await user_schema_1.default.find();
+        let users = await user_schema_1.default.find({ role: "user" });
         let products = await product_schema_1.default.find();
         let data = {
             users: users,
@@ -18,7 +18,7 @@ class UserController {
         res.render('index', { data: data });
     }
     async showFormInfo(req, res, next) {
-        let users = await user_schema_1.default.find().populate('city');
+        let users = await user_schema_1.default.find({ role: 'user' }).populate('city');
         res.render('info-user-list', { users: users });
     }
     async showFormCreateUser(req, res, next) {
@@ -74,11 +74,13 @@ class UserController {
     }
     async searchUser(req, res, next) {
         let keyword = req.query.keywordUser;
+        let cities = await city_user_schema_1.default.find({ $or: [{ name: { $regex: `${keyword}`, $options: 'i' } }] });
         let users = await user_schema_1.default.find({ $or: [{ userName: { $regex: `${keyword}`, $options: 'i' } },
                 { address: { $regex: `${keyword}`, $options: 'i' } },
                 { name: { $regex: `${keyword}`, $options: 'i' } },
-                { email: { $regex: `${keyword}`, $options: 'i' } }
-            ] });
+                { email: { $regex: `${keyword}`, $options: 'i' } },
+                { city: cities }
+            ] }).populate('city');
         res.render('info-user-list', { users: users });
     }
 }

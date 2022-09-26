@@ -19,9 +19,10 @@ export class ProductController {
             idPro: req.body.idPro,
             amount: req.body.amountPro,
             detail: req.body.detailPro,
-            image: req.body.imagePro
+            image1: req.body.imagePro1,
+            image2: req.body.imagePro2
         }
-        const product = new Product({name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image: data.image}).populate('idPro')
+        const product = new Product({name: data.name, price: data.price, idPro: data.idPro, amount: data.amount, detail: data.detail, image1: data.image1, image2: data.image2}).populate('idPro')
         await product.save();
         res.redirect('/admin/product/info')
     }
@@ -54,8 +55,9 @@ export class ProductController {
         }
     }
     async showFormUpdate(req: Request, res: Response, next: NextFunction) {
-        let data = await IdPro.find()
-        res.render('update-product', { data : data })
+        let idPro = await IdPro.find();
+        let product = await Product.findOne({ _id : req.params.id});
+        res.render('update-product', { idPro : idPro, product : product})
     }
     async updateProduct(req: Request, res: Response, next: NextFunction) {
         let data = {
@@ -64,10 +66,22 @@ export class ProductController {
             idPro: req.body.idPro,
             amount: req.body.amountPro,
             detail: req.body.detailPro,
-            image: req.body.imagePro
+            image1: req.body.imagePro1,
+            image2: req.body.imagePro2
         }
         let proId = req.params.id
-        await Product.findOneAndUpdate({_id : proId}, {name: data.name , price: data.price , idPro: data.idPro , amount: data.amount , detail: data.detail , image: data.image}).populate('idPro')
+        await Product.findOneAndUpdate({_id : proId}, {name: data.name , price: data.price , idPro: data.idPro , amount: data.amount , detail: data.detail , image1: data.image1, image2: data.image2}).populate('idPro')
         res.redirect('/admin/product/info')
+    }
+    async searchProduct(req: Request, res: Response, next: NextFunction) {
+        let keyword = req.query.keywordPro
+        let idPros =  await IdPro.find({$or: [{name: {$regex: `${keyword}`, $options: 'i'}}]})
+        let products = await Product.find(
+            {$or: [{name: {$regex: `${keyword}`, $options: 'i'}},
+                    {detail: {$regex: `${keyword}`, $options: 'i'}},
+                    { idPro : idPros}
+                ]}).populate('idPro')
+
+        res.render('info-product-list', {products: products})
     }
 }
