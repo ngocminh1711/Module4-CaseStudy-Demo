@@ -65,7 +65,7 @@
                                 <td><%= user.email %></td>
                                 <td><%= user.phone %></td>
                                 <td><%= user.address %></td>
-                                <td><%= user.city?.name%></td>
+                                <td><%= user.city?.name %></td>
                                 <td><a type="button" onclick="return confirm('Are you sure to delete?')" href="/admin/delete/<%=user._id %>" ><i class="fas fa-trash-alt" style="color: darkred"></i></a></td>
                                 <td><a type="button"  href="/admin/update/<%=user._id %>" ><i class="fas fa-user-edit" style="color: blue"></i></a></td>
                             </tr>

@@ -29,6 +29,9 @@ shopRouter.get('/quannam', (req, res, next) => {
 shopRouter.get('/aonam', (req, res, next) => {
     shopController.showFormAoNam(req, res, next);
 })
+shopRouter.get('/all', (req, res, next) => {
+    shopController.showFormAll(req, res, next);
+})
 
 
 

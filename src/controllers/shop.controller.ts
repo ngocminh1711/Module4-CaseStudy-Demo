@@ -5,8 +5,9 @@ import IdPro from "../models/schemas/idPro.product.schema";
 
 export class ShopController {
 
-    showFormShop (req: Request, res: Response, next: NextFunction) {
-        res.render('homepage')
+    async showFormShop (req: Request, res: Response, next: NextFunction) {
+        let products = await Product.find()
+        res.render('homepage', {products : products})
     }
     async showFormQuanNam (req: Request, res: Response, next: NextFunction) {
         let idPros = await IdPro.find({name: "QNA"});
@@ -19,4 +20,9 @@ export class ShopController {
         // console.log(products)
         res.render('aonam', {products : products});
     }
+    async showFormAll (req: Request, res: Response, next: NextFunction) {
+        let products = await Product.find()
+
+        res.render('all', {products : products});
+}
 }

@@ -7,8 +7,9 @@ exports.ShopController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
 const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
 class ShopController {
-    showFormShop(req, res, next) {
-        res.render('homepage');
+    async showFormShop(req, res, next) {
+        let products = await product_schema_1.default.find();
+        res.render('homepage', { products: products });
     }
     async showFormQuanNam(req, res, next) {
         let idPros = await idPro_product_schema_1.default.find({ name: "QNA" });
@@ -19,6 +20,10 @@ class ShopController {
         let idPros = await idPro_product_schema_1.default.find({ name: "ANA" });
         let products = await product_schema_1.default.find({ idPro: idPros }).populate('idPro');
         res.render('aonam', { products: products });
+    }
+    async showFormAll(req, res, next) {
+        let products = await product_schema_1.default.find();
+        res.render('all', { products: products });
     }
 }
 exports.ShopController = ShopController;
