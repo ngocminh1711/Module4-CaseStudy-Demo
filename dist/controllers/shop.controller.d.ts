@@ -3,4 +3,8 @@ export declare class ShopController {
     showFormShop(req: Request, res: Response, next: NextFunction): void;
     showFormQuanNam(req: Request, res: Response, next: NextFunction): Promise<void>;
     showFormAoNam(req: Request, res: Response, next: NextFunction): Promise<void>;
+    sortProductsDesc(req: Request, res: Response, next: NextFunction): Promise<void>;
+    sortProductsIncrease(req: Request, res: Response, next: NextFunction): Promise<void>;
+    sortProducts500(req: Request, res: Response, next: NextFunction): Promise<void>;
+    sortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

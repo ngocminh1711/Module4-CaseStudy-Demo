@@ -75,10 +75,11 @@ class UserController {
     async searchUser(req, res, next) {
         let keyword = req.query.keywordUser;
         let cities = await city_user_schema_1.default.find({ $or: [{ name: { $regex: `${keyword}`, $options: 'i' } }] });
-        let users = await user_schema_1.default.find({ $or: [{ userName: { $regex: `${keyword}`, $options: 'i' } },
-                { address: { $regex: `${keyword}`, $options: 'i' } },
-                { name: { $regex: `${keyword}`, $options: 'i' } },
-                { email: { $regex: `${keyword}`, $options: 'i' } },
+        let users = await user_schema_1.default.find({ $or: [{ userName: { $regex: `${keyword}`, $options: 'i', $not: /^admin.*/ } },
+                { address: { $regex: `${keyword}`, $options: 'i', $not: /^admin.*/ } },
+                { role: { $not: /^admin.*/ } },
+                { name: { $regex: `${keyword}`, $options: 'i', $not: /^admin.*/ } },
+                { email: { $regex: `${keyword}`, $options: 'i', $not: /^admin.*/ } },
                 { city: cities }
             ] }).populate('city');
         res.render('info-user-list', { users: users });

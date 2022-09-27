@@ -29,7 +29,17 @@ shopRouter.get('/quannam', (req, res, next) => {
 shopRouter.get('/aonam', (req, res, next) => {
     shopController.showFormAoNam(req, res, next);
 })
-
-
+shopRouter.get('/sortProductDesc', (req, res, next) => {
+    shopController.sortProductsDesc(req, res, next)
+})
+shopRouter.get('/sortProductIncrease', (req, res, next) => {
+    shopController.sortProductsIncrease(req, res, next)
+})
+shopRouter.get('/sortProducts500', (req, res, next) => {
+    shopController.sortProducts500(req, res, next)
+})
+shopRouter.get('/sortProduct0', (req, res, next) => {
+    shopController.sortProducts0(req, res, next)
+})
 
 export default shopRouter;
