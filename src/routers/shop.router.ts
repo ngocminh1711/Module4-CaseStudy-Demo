@@ -1,8 +1,7 @@
 import express from 'express'
-import {ShopController} from '../controllers/shop.controller';
+import { ShopController } from '../controllers/shop.controller';
 import {AuthController} from "../controllers/auth.controller";
 import passport from "../middleware/auth.midd";
-
 const multer = require('multer');
 
 const upload = multer();
@@ -17,7 +16,7 @@ const authController = new AuthController();
 shopRouter.get('/login', function (req, res, next) {
     authController.showFormLogin(req, res, next);
 })
-shopRouter.post('/login', upload.none(), passport.authenticate('local', {
+shopRouter.post('/login',upload.none(), passport.authenticate('local', {
     successRedirect: '/admin',
     failureRedirect: '/login'
 }));
@@ -36,8 +35,10 @@ shopRouter.get('/aonam/:page', (req, res, next) => {
 })
 shopRouter.get('/quannam/:page', (req, res, next) => {
     shopController.pagingProductsQuanNam(req, res, next)
-})
 
+shopRouter.get('/all', (req, res, next) => {
+
+})
 
 shopRouter.get('/sortProductDesc', (req, res, next) => {
     shopController.sortProductsDesc(req, res, next)
