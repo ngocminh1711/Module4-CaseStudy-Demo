@@ -28,7 +28,6 @@ shopRouter.get('/quannam', (req, res, next) => {
 shopRouter.get('/aonam', (req, res, next) => {
     shopController.showFormAoNam(req, res, next);
 });
-
 shopRouter.get('/aonam/:page', (req, res, next) => {
     shopController.pagingProductsAoNam(req, res, next);
 });
@@ -58,8 +57,6 @@ shopRouter.get('/sortProducts0', (req, res, next) => {
 });
 shopRouter.get('/sortProducts0/:page', (req, res, next) => {
     shopController.pagingSortProducts0(req, res, next);
-shopRouter.get('/all', (req, res, next) => {
-    shopController.showFormAll(req, res, next);
 });
 exports.default = shopRouter;
 //# sourceMappingURL=shop.router.js.map

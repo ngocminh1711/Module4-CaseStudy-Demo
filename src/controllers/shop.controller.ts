@@ -183,9 +183,6 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', {products: products, current: page, pages: totalPages})
     }
-
-}
-
     async showFormAll (req: Request, res: Response, next: NextFunction) {
         let products = await Product.find()
 
