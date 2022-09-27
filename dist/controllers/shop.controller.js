@@ -7,8 +7,9 @@ exports.ShopController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
 const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
 class ShopController {
-    showFormShop(req, res, next) {
-        res.render('homepage');
+    async showFormShop(req, res, next) {
+        let products = await product_schema_1.default.find();
+        res.render('homepage', { products: products });
     }
     async showFormQuanNam(req, res, next) {
         let page = req.params.page || 1;
@@ -169,6 +170,10 @@ class ShopController {
         let total = count;
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', { products: products, current: page, pages: totalPages });
+    }
+    async showFormAll(req, res, next) {
+        let products = await product_schema_1.default.find();
+        res.render('all', { products: products });
     }
 }
 exports.ShopController = ShopController;

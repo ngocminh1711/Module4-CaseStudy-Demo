@@ -5,8 +5,9 @@ import IdPro from "../models/schemas/idPro.product.schema";
 
 export class ShopController {
 
-    showFormShop(req: Request, res: Response, next: NextFunction) {
-        res.render('homepage')
+    async showFormShop (req: Request, res: Response, next: NextFunction) {
+        let products = await Product.find()
+        res.render('homepage', {products : products})
     }
 
     async showFormQuanNam(req: Request, res: Response, next: NextFunction) {
@@ -182,4 +183,13 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', {products: products, current: page, pages: totalPages})
     }
+
 }
+
+    async showFormAll (req: Request, res: Response, next: NextFunction) {
+        let products = await Product.find()
+
+        res.render('all', {products : products});
+}
+}
+

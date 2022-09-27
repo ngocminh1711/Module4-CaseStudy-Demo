@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 export declare class ShopController {
-    showFormShop(req: Request, res: Response, next: NextFunction): void;
+    showFormShop(req: Request, res: Response, next: NextFunction): Promise<void>;
     showFormQuanNam(req: Request, res: Response, next: NextFunction): Promise<void>;
     showFormAoNam(req: Request, res: Response, next: NextFunction): Promise<void>;
     pagingProductsAoNam(req: Request, res: Response, next: NextFunction): Promise<void>;
@@ -13,4 +13,5 @@ export declare class ShopController {
     pagingSortProducts500(req: Request, res: Response, next: NextFunction): Promise<void>;
     sortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
     pagingSortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
+    showFormAll(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

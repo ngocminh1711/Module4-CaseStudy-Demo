@@ -36,29 +36,33 @@
                         <form class="row g-3" method="post" action="" enctype="multipart/form-data">
                             <div class="col-md-12">
                                 <label for="inputName5" class="form-label">Name' Product</label>
-                                <input type="text" name="namePro" class="form-control" id="inputName5" required>
+                                <input type="text" value="<%= product.name%>" name="namePro" class="form-control" id="inputName5" required>
                             </div>
                             <div class="col-md-6">
                                 <label  class="form-label">Price</label>
-                                <input type="number" name="pricePro" class="form-control"  required>
+                                <input type="number" value="<%= product.price%>" name="pricePro" class="form-control"  required>
                             </div>
                             <div class="col-md-6">
                                 <label  class="form-label">Amount</label>
-                                <input type="number" name="amountPro" class="form-control" required>
+                                <input type="number" value="<%= product.amount%>" name="amountPro" class="form-control" required>
                             </div>
                             <div class="col-12">
                                 <label  class="form-label">Details</label>
-                                <input type="text" name="detailPro" class="form-control" required>
+                                <input type="text" value="<%= product.detail%>" name="detailPro" class="form-control" required>
                             </div>
                             <div class="col-md-8">
-                                <label  class="form-label">Image</label>
-                                <input type="text" name="imagePro" class="form-control" required>
+                                <label  class="form-label">Image1</label>
+                                <input type="text" name="imagePro1" class="form-control" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label  class="form-label">Image2</label>
+                                <input type="text" name="imagePro2" class="form-control" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="inputState" class="form-label">IdPro</label>
                                 <select id="inputState" name="idPro" class="form-select">
-                                    <% data.forEach((item,index)=> { %>
-                                        <option value="<%= item._id%>" selected><%= item.name %></option>
+                                    <% idPro.forEach((item,index)=> { %>
+                                        <option value="<%= item._id%>" selected> <%= item.name %> </option>
                                     <%})%>
                                 </select>
                             </div>
