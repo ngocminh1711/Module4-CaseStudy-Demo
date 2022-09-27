@@ -84,4 +84,5 @@ export class ProductController {
 
         res.render('info-product-list', {products: products})
     }
+
 }
