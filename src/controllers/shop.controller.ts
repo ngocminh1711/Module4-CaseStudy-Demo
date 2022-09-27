@@ -186,10 +186,4 @@ export class ShopController {
 
 }
 
-    async showFormAll (req: Request, res: Response, next: NextFunction) {
-        let products = await Product.find()
-
-        res.render('all', {products : products});
-}
-}
 

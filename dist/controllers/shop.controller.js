@@ -171,10 +171,6 @@ class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', { products: products, current: page, pages: totalPages });
     }
-    async showFormAll(req, res, next) {
-        let products = await product_schema_1.default.find();
-        res.render('all', { products: products });
-    }
 }
 exports.ShopController = ShopController;
 //# sourceMappingURL=shop.controller.js.map

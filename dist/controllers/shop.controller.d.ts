@@ -13,5 +13,4 @@ export declare class ShopController {
     pagingSortProducts500(req: Request, res: Response, next: NextFunction): Promise<void>;
     sortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
     pagingSortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
-    showFormAll(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
