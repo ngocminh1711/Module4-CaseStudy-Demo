@@ -17,7 +17,25 @@ export class ShopController {
 
     async showFormAoNam(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
+        console.log(req.params)
         let limit = 5;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let idPros = await IdPro.find({name: "ANA"});
+        let products = await Product.find({idPro: idPros}).limit(limit).skip(offset).populate('idPro');
+        let count = await Product.count({idPro: idPros}).populate('idPro');
+        let total = count;
+
+        let totalPages = Math.ceil(total / limit);
+
+        res.render('aonam', {products: products,current: page, pages: totalPages});
+    }
+
+    async pagingProductsAoNam(req: Request, res: Response, next: NextFunction) {
+        let page : any = req.params.page || 1;
+        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;

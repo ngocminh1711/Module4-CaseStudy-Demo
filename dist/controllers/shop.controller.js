@@ -17,7 +17,22 @@ class ShopController {
     }
     async showFormAoNam(req, res, next) {
         let page = req.params.page || 1;
+        console.log(req.params);
         let limit = 5;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let idPros = await idPro_product_schema_1.default.find({ name: "ANA" });
+        let products = await product_schema_1.default.find({ idPro: idPros }).limit(limit).skip(offset).populate('idPro');
+        let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('aonam', { products: products, current: page, pages: totalPages });
+    }
+    async pagingProductsAoNam(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
