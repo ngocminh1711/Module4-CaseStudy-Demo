@@ -3,20 +3,31 @@
         <div class="product-topbar d-flex align-items-center justify-content-between">
             <!-- Total Products -->
             <div class="total-products">
-                <p><span>186</span> products found</p>
+                <p><span><%= products.length %></span> products found</p>
             </div>
             <!-- Sorting -->
             <div class="product-sorting d-flex">
-                <p>Sort by:</p>
-                <form action="#" method="get">
-                    <select name="select" id="sortByselect">
-                        <option value="value">Highest Rated</option>
-                        <option value="value">Newest</option>
-                        <option value="value">Price: $$ - $</option>
-                        <option value="value">Price: $ - $$</option>
-                    </select>
-                    <input type="submit" class="d-none" value="">
-                </form>
+
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Sort by
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <form action="/sortProducts500" method="get">
+                             <button  class="dropdown-item" href="#">Price: > 500.000</button>
+                            </form>
+                            <form action="/sortProducts0" method="get">
+                                <button type="submit" value="499" class="dropdown-item" href="#">Price: 0 - 500.000</button>
+                            </form>
+                            <form action="/sortProductIncrease" method="get">
+                                <button onclick="" type="submit" class="dropdown-item" href="#">Tăng dần</button>
+                            </form>
+                            <form action="/sortProductDesc" method="get">
+                               <button onclick="" type="submit" class="dropdown-item" href="#">Giảm dần</button>
+                            </form>
+                        </div>
+                    </div>
+
             </div>
         </div>
     </div>

@@ -98,13 +98,14 @@
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="page-title text-center">
-                    <h2>Product List</h2>
+                    <h2>T-Shirt</h2>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- ##### Breadcumb Area End ##### -->
+
 <!-- ##### Shop Grid Area Start ##### -->
 <section class="shop_grid_area section-padding-80">
     <div class="container">
@@ -157,11 +158,10 @@
                                 </div>
                             </div>
                         <% })%>
-
                         </tbody>
+
                     </div>
                 </div>
-
                 <!-- Pagination -->
                 <div class="row">
                     <!-- pagination -->
@@ -172,11 +172,11 @@
                                 <!-- FIRST ITEM -->
                                 <% if(current===1) { %>
                                     <li class="page-item">
-                                        <a class="page-link" href="/sortProductIncrease">First</a>
+                                        <a class="page-link" href="/aonam">First</a>
                                     </li>
                                 <% } else { %>
                                     <li class="page-item">
-                                        <a class="page-link" href="/sortProductIncrease">First</a>
+                                        <a class="page-link" href="/aonam">First</a>
                                     </li>
                                 <% } %>
                                 <!-- ITEMS  -->
@@ -189,13 +189,13 @@
                                 <% for(; i <=(Number(current) + 2) && i <=pages; i++) { %>
                                     <% if(i==current) { %>
                                         <li class="page-item active">
-                                            <a class="page-link" href="/sortProductIncrease/<%= i %>/">
+                                            <a class="page-link" href="/aonam/<%= i %>/">
                                                 <%= i %>
                                             </a>
                                         </li>
                                     <% } else { %>
                                         <li class="page-item">
-                                            <a class="page-link" href="/sortProductIncrease/<%= i %>/">
+                                            <a class="page-link" href="/aonam/<%= i %>/">
                                                 <%= i %>
                                             </a>
                                         </li>
@@ -216,7 +216,7 @@
                                 <% } else { %>
                                     <li class="page-item">
                                         <a class="page-link"
-                                           href="/sortProductIncrease/<%= pages %>/">
+                                           href="/aonam/<%= pages %>/">
                                             Last
                                         </a>
                                     </li>
@@ -233,9 +233,9 @@
 
 <!-- ##### Footer Area Start ##### -->
 <%- include ('footer/footer-shop')%>
-<script>
 
 
+<script >
 </script>
 </body>
 

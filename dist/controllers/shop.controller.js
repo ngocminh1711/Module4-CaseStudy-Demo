@@ -11,13 +11,21 @@ class ShopController {
         res.render('homepage');
     }
     async showFormQuanNam(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 5;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
         let idPros = await idPro_product_schema_1.default.find({ name: "QNA" });
-        let products = await product_schema_1.default.find({ idPro: idPros }).populate('idPro');
-        res.render('quannam', { products: products });
+        let products = await product_schema_1.default.find({ idPro: idPros }).limit(limit).skip(offset).populate('idPro');
+        let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('quannam', { products: products, current: page, pages: totalPages });
     }
     async showFormAoNam(req, res, next) {
         let page = req.params.page || 1;
-        console.log(req.params);
         let limit = 5;
         let offset = 0;
         if (page) {
@@ -44,21 +52,123 @@ class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('aonam', { products: products, current: page, pages: totalPages });
     }
+    async pagingProductsQuanNam(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let idPros = await idPro_product_schema_1.default.find({ name: "QNA" });
+        let products = await product_schema_1.default.find({ idPro: idPros }).limit(limit).skip(offset).populate('idPro');
+        let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('quannam', { products: products, current: page, pages: totalPages });
+    }
     async sortProductsDesc(req, res, next) {
-        let products = await product_schema_1.default.find().sort({ price: -1 });
-        res.render('sort-product-desc', { products: products });
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find().limit(limit).skip(offset).sort({ price: -1 });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-desc', { products: products, current: page, pages: totalPages });
+    }
+    async pagingSortProductsDesc(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find().limit(limit).skip(offset).sort({ price: -1 });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-desc', { products: products, current: page, pages: totalPages });
     }
     async sortProductsIncrease(req, res, next) {
-        let products = await product_schema_1.default.find().sort({ price: 1 });
-        res.render('sort-product-increase', { products: products });
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find().limit(limit).skip(offset).sort({ price: 1 });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-increase', { products: products, current: page, pages: totalPages });
+    }
+    async pagingSortProductsIncrease(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find().limit(limit).skip(offset).sort({ price: 1 });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-increase', { products: products, current: page, pages: totalPages });
     }
     async sortProducts500(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
         let products = await product_schema_1.default.find({ price: { $gt: 500000 } });
-        res.render('sort-product-500', { products: products });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-500', { products: products, current: page, pages: totalPages });
+    }
+    async pagingSortProducts500(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find({ price: { $gt: 500000 } });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-500', { products: products, current: page, pages: totalPages });
     }
     async sortProducts0(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
         let products = await product_schema_1.default.find({ price: { $lte: 500000 } });
-        res.render('sort-product-0', { products: products });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-0', { products: products, current: page, pages: totalPages });
+    }
+    async pagingSortProducts0(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 10;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find({ price: { $lte: 500000 } });
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-0', { products: products, current: page, pages: totalPages });
     }
 }
 exports.ShopController = ShopController;
