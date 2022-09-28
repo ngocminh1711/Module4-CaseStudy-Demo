@@ -28,7 +28,7 @@
             <!-- Single Cart Item -->
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="img/product-img/product-1.jpg" class="cart-thumb" alt="">
+                    <img src="/img/product-img/product-1.jpg" class="cart-thumb" alt="">
                     <!-- Cart Item Desc -->
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
@@ -44,7 +44,7 @@
             <!-- Single Cart Item -->
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="img/product-img/product-2.jpg" class="cart-thumb" alt="">
+                    <img src="/img/product-img/product-2.jpg" class="cart-thumb" alt="">
                     <!-- Cart Item Desc -->
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
@@ -60,7 +60,7 @@
             <!-- Single Cart Item -->
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="img/product-img/product-3.jpg" class="cart-thumb" alt="">
+                    <img src="/img/product-img/product-3.jpg" class="cart-thumb" alt="">
                     <!-- Cart Item Desc -->
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
@@ -118,6 +118,7 @@
 
                     <div class="row">
                         <!-- Single Product -->
+                        <tbody>
                         <% products.forEach((item, index)=> {%>
                             <div class="col-12 col-sm-6 col-lg-4">
 
@@ -147,29 +148,86 @@
                                         <!-- Hover Content -->
                                         <div class="hover-content">
                                             <!-- Add to Cart -->
+
                                             <div class="add-to-cart-btn">
-                                                <a href="#" class="btn essence-btn">Add to Cart</a>
+                                                <form action="/add-to-cart" method="POST" >
+                                                <input type="hidden" name="id" value="<%= item._id%>">
+                                                <button  type="submit" class="btn essence-btn">Add to Cart</button>
+                                                </form>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         <% })%>
+                        </tbody>
 
                     </div>
                 </div>
                 <!-- Pagination -->
-                <nav aria-label="navigation">
-                    <ul class="pagination mt-50 mb-70">
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">21</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
-                </nav>
+                <div class="row">
+                    <!-- pagination -->
+                    <% if(pages> 0) { %>
+                        <!-- show pagination if there is pages -->
+                        <nav class="mx-auto">
+                            <ul class="pagination" style="margin-top: 2rem;">
+                                <!-- FIRST ITEM -->
+                                <% if(current===1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/aonam">First</a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/aonam">First</a>
+                                    </li>
+                                <% } %>
+                                <!-- ITEMS  -->
+                                <% var i=(Number(current)> 3 ? Number(current) - 2 : 1) %>
+                                <% if(i !==1) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                                <% for(; i <=(Number(current) + 2) && i <=pages; i++) { %>
+                                    <% if(i==current) { %>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="/aonam/<%= i %>/">
+                                                <%= i %>
+                                            </a>
+                                        </li>
+                                    <% } else { %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="/aonam/<%= i %>/">
+                                                <%= i %>
+                                            </a>
+                                        </li>
+                                    <% } %>
+                                    <% if (i==Number(current) + 2 && i < pages) { %>
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">...</a>
+                                        </li>
+                                    <% } %>
+                                <% } %>
+                                <!-- LAST ITEM -->
+                                <% if(current==pages) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">
+                                            Last
+                                        </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="/aonam/<%= pages %>/">
+                                            Last
+                                        </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>
@@ -179,6 +237,9 @@
 <!-- ##### Footer Area Start ##### -->
 <%- include ('footer/footer-shop')%>
 
+
+<script >
+</script>
 </body>
 
 </html>
