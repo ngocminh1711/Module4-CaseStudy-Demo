@@ -28,38 +28,37 @@ shopRouter.get('/quannam', (req, res, next) => {
 shopRouter.get('/aonam', (req, res, next) => {
     shopController.showFormAoNam(req, res, next);
 });
-
 shopRouter.get('/aonam/:page', (req, res, next) => {
     shopController.pagingProductsAoNam(req, res, next);
 });
 shopRouter.get('/quannam/:page', (req, res, next) => {
     shopController.pagingProductsQuanNam(req, res, next);
+    shopRouter.get('/all', (req, res, next) => {
+    });
+    shopRouter.get('/sortProductDesc', (req, res, next) => {
+        shopController.sortProductsDesc(req, res, next);
+    });
+    shopRouter.get('/sortProductDesc/:page', (req, res, next) => {
+        shopController.pagingSortProductsDesc(req, res, next);
+    });
+    shopRouter.get('/sortProductIncrease', (req, res, next) => {
+        shopController.sortProductsIncrease(req, res, next);
+    });
+    shopRouter.get('/sortProductIncrease/:page', (req, res, next) => {
+        shopController.pagingSortProductsIncrease(req, res, next);
+    });
+    shopRouter.get('/sortProducts500', (req, res, next) => {
+        shopController.sortProducts500(req, res, next);
+    });
+    shopRouter.get('/sortProducts500/:page', (req, res, next) => {
+        shopController.pagingSortProducts500(req, res, next);
+    });
+    shopRouter.get('/sortProducts0', (req, res, next) => {
+        shopController.sortProducts0(req, res, next);
+    });
+    shopRouter.get('/sortProducts0/:page', (req, res, next) => {
+        shopController.pagingSortProducts0(req, res, next);
+    });
+    export default shopRouter;
 });
-shopRouter.get('/sortProductDesc', (req, res, next) => {
-    shopController.sortProductsDesc(req, res, next);
-});
-shopRouter.get('/sortProductDesc/:page', (req, res, next) => {
-    shopController.pagingSortProductsDesc(req, res, next);
-});
-shopRouter.get('/sortProductIncrease', (req, res, next) => {
-    shopController.sortProductsIncrease(req, res, next);
-});
-shopRouter.get('/sortProductIncrease/:page', (req, res, next) => {
-    shopController.pagingSortProductsIncrease(req, res, next);
-});
-shopRouter.get('/sortProducts500', (req, res, next) => {
-    shopController.sortProducts500(req, res, next);
-});
-shopRouter.get('/sortProducts500/:page', (req, res, next) => {
-    shopController.pagingSortProducts500(req, res, next);
-});
-shopRouter.get('/sortProducts0', (req, res, next) => {
-    shopController.sortProducts0(req, res, next);
-});
-shopRouter.get('/sortProducts0/:page', (req, res, next) => {
-    shopController.pagingSortProducts0(req, res, next);
-shopRouter.get('/all', (req, res, next) => {
-    shopController.showFormAll(req, res, next);
-});
-exports.default = shopRouter;
 //# sourceMappingURL=shop.router.js.map
