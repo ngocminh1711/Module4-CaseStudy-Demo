@@ -173,4 +173,10 @@ class ShopController {
     }
 }
 exports.ShopController = ShopController;
+async;
+showFormAll(req, Request, res, Response, next, NextFunction);
+{
+    let products = await product_schema_1.default.find();
+    res.render('all', { products: products });
+}
 //# sourceMappingURL=shop.controller.js.map
