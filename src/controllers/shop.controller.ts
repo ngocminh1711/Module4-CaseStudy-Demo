@@ -2,16 +2,20 @@ import {Request, Response,NextFunction} from "express";
 import Product from "../models/schemas/product.schema";
 import IdPro from "../models/schemas/idPro.product.schema";
 import {CartModel} from "../models/schemas/cart.model";
+import {Cookie} from "express-session";
+import {serializeUser} from "passport";
+const fs = require("fs");
+const cookie = require("cookie");
 
 export class ShopController {
 
-    async showFormShop (req: Request, res: Response, next: NextFunction) {
+    async showFormShop(req: Request, res: Response, next: NextFunction) {
         let products = await Product.find()
-        res.render('homepage', {products : products})
+        res.render('homepage', {products: products})
     }
 
     async showFormQuanNam(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 5;
         let offset = 0;
         if (page) {
@@ -24,11 +28,11 @@ export class ShopController {
 
         let totalPages = Math.ceil(total / limit);
 
-        res.render('quannam', {products: products,current: page, pages: totalPages});
+        res.render('quannam', {products: products, current: page, pages: totalPages});
     }
 
     async showFormAoNam(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 5;
         let offset = 0;
         if (page) {
@@ -41,11 +45,17 @@ export class ShopController {
 
         let totalPages = Math.ceil(total / limit);
 
-        res.render('aonam', {products: products,current: page, pages: totalPages});
+        if (req.headers.cookie) {
+
+        }
+
+
+
+        res.render('aonam', {products: products, current: page, pages: totalPages});
     }
 
     async pagingProductsAoNam(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
@@ -58,10 +68,11 @@ export class ShopController {
 
         let totalPages = Math.ceil(total / limit);
 
-        res.render('aonam', {products: products,current: page, pages: totalPages});
+        res.render('aonam', {products: products, current: page, pages: totalPages});
     }
+
     async pagingProductsQuanNam(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
@@ -74,12 +85,12 @@ export class ShopController {
 
         let totalPages = Math.ceil(total / limit);
 
-        res.render('quannam', {products: products,current: page, pages: totalPages});
+        res.render('quannam', {products: products, current: page, pages: totalPages});
     }
 
 
     async sortProductsDesc(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
@@ -91,8 +102,9 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-desc', {products: products, current: page, pages: totalPages})
     }
+
     async pagingSortProductsDesc(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
@@ -104,8 +116,9 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-desc', {products: products, current: page, pages: totalPages})
     }
+
     async sortProductsIncrease(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
@@ -117,8 +130,9 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-increase', {products: products, current: page, pages: totalPages})
     }
+
     async pagingSortProductsIncrease(req: Request, res: Response, next: NextFunction) {
-        let page : any = req.params.page || 1;
+        let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
@@ -130,6 +144,7 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-increase', {products: products, current: page, pages: totalPages})
     }
+
     async sortProducts500(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
@@ -137,12 +152,13 @@ export class ShopController {
         if (page) {
             offset = (page - 1) * limit;
         }
-            let products = await Product.find({price: {$gt: 500000}})
-            let count = await Product.count();
-            let total = count;
-            let totalPages = Math.ceil(total / limit);
-            res.render('sort-product-500', {products: products, current: page, pages: totalPages})
+        let products = await Product.find({price: {$gt: 500000}})
+        let count = await Product.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('sort-product-500', {products: products, current: page, pages: totalPages})
     }
+
     async pagingSortProducts500(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
@@ -164,12 +180,13 @@ export class ShopController {
         if (page) {
             offset = (page - 1) * limit;
         }
-        let products = await Product.find({price: { $lte : 500000}})
+        let products = await Product.find({price: {$lte: 500000}})
         let count = await Product.count();
         let total = count;
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', {products: products, current: page, pages: totalPages})
     }
+
     async pagingSortProducts0(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
         let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
@@ -177,7 +194,7 @@ export class ShopController {
         if (page) {
             offset = (page - 1) * limit;
         }
-        let products = await Product.find({price: { $lte : 500000}})
+        let products = await Product.find({price: {$lte: 500000}})
         let count = await Product.count();
         let total = count;
         let totalPages = Math.ceil(total / limit);
@@ -185,11 +202,106 @@ export class ShopController {
     }
 
     async addToCart(req: Request, res: Response, next: NextFunction) {
-       let addProduct = await Product.findById(req.body.id)
+        // take req from client
+        let idProduct = req.body.idProduct;
 
-        CartModel.save(addProduct)
+        let product = await Product.findById(idProduct)
+
+        // create cart
+        let cart = {
+            items: [product],
+            totalMoney: product.price,
+            totalQuantity: 1
+        }
+
+        //check cart exists?
+
+        //get coookie from header request
+
+        if (req.headers.cookie) {
+            let cookieReq = cookie.parse(req.headers.cookie).cart
+
+
+            if (cookieReq) {
+                // get cart id from cookie
+                let cartId = JSON.parse(cookieReq).cartId;
+
+
+                if ( fs.existsSync('./session/cart/' + cartId + '.txt')) {
+                    let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
+
+                    cart = JSON.parse(dataCart)
+
+                    cart.items.push(product)
+                    cart.totalMoney += product.price;
+                    cart.totalQuantity += 1;
+
+                    // ghi de lai file
+                    fs.writeFile('./session/cart/' + cartId + '.txt', JSON.stringify(cart), (err) =>{
+                        res.end();
+                    })
+
+
+                }
+                else {
+                    // save cart to session
+
+                    let nameFile = Date.now()
+                    fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err)=> {
+
+                        let cartCookie = {
+                            cartId: nameFile
+                        }
+                        // create cookie
+                        let cookies = cookie.serialize('cart', JSON.stringify(cartCookie))
+
+                        res.setHeader('set-cookie', cookies)
+
+                        res.end();
+                    })
+                }
+
+            } else {
+                let nameFile = Date.now()
+                fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err)=> {
+
+                    let cartCookie = {
+                        cartId: nameFile
+                    }
+                    // create cookie
+                    let cookies = cookie.serialize('cart', JSON.stringify(cartCookie))
+
+                    res.setHeader('set-cookie', cookies)
+
+                    res.end();
+                })
+            }
+
+        } else {
+            let nameFile = Date.now()
+            fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err)=> {
+
+                let cartCookie = {
+                    cartId: nameFile
+                }
+                // create cookie
+                let cookies = cookie.serialize('cart', JSON.stringify(cartCookie))
+
+                res.setHeader('set-cookie', cookies)
+
+                res.end();
+            })
+        }
+
+
+
+
+        // let addProduct = await Product.findById(req.body.id)
+        //
+        // CartModel.save(addProduct)
+        // let productsInCart = await CartModel.getCart();
+        // console.log(productsInCart)
+
     }
-
-
 }
 

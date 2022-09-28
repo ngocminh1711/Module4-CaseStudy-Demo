@@ -3,7 +3,7 @@
 
 <head>
     <%- include ('header/head-shop')%>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
             <!-- Single Cart Item -->
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="img/product-img/product-1.jpg" class="cart-thumb" alt="">
+                    <img src="/img/product-img/product-1.jpg" class="cart-thumb" alt="">
                     <!-- Cart Item Desc -->
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
@@ -44,7 +44,7 @@
             <!-- Single Cart Item -->
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="img/product-img/product-2.jpg" class="cart-thumb" alt="">
+                    <img src="/img/product-img/product-2.jpg" class="cart-thumb" alt="">
                     <!-- Cart Item Desc -->
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
@@ -60,7 +60,7 @@
             <!-- Single Cart Item -->
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="img/product-img/product-3.jpg" class="cart-thumb" alt="">
+                    <img src="/img/product-img/product-3.jpg" class="cart-thumb" alt="">
                     <!-- Cart Item Desc -->
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
@@ -130,9 +130,7 @@
                                         <img class="hover-img" src="<%= item?.image2%>" alt="">
 
                                         <!-- Product Badge -->
-                                        <div class="product-badge offer-badge">
-                                            <span>-30%</span>
-                                        </div>
+
                                         <!-- Favourite -->
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
@@ -141,18 +139,20 @@
 
                                     <!-- Product Description -->
                                     <div class="product-description">
-                                        <span>topshop</span>
+
                                         <a href="single-product-details.html">
                                             <h6><%= item.detail%></h6>
                                         </a>
-                                        <p class="product-price"><span class="old-price">$75.00</span> <%= item.price%></p>
+                                        <p class="product-price"><span class="old-price">$</span> <%= item.price%> VND</p>
 
                                         <!-- Hover Content -->
                                         <div class="hover-content">
                                             <!-- Add to Cart -->
+
                                             <div class="add-to-cart-btn">
-                                                <a href="#" class="btn essence-btn">Add to Cart</a>
+                                                <button onclick="addToCart(`<%= item._id%>`)" type="button" class="btn essence-btn">Add to Cart</button>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +235,22 @@
 <%- include ('footer/footer-shop')%>
 
 
-<script >
+<script>
+    let original = window.origin
+
+    function addToCart(idProduct){
+        alert(idProduct)
+        $.ajax({
+            url: `${original}/add-to-cart`,
+            method: 'GET',
+            data: {
+                idProduct: idProduct
+            },
+            success: (res) => {
+                console.log(res)
+            }
+        })
+    }
 </script>
 </body>
 

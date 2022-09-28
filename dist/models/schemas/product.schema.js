@@ -30,6 +30,7 @@ const productSchema = new mongoose_1.Schema({
     amount: Number,
     detail: String,
     idPro: { type: mongoose_1.Schema.Types.ObjectId, ref: 'IdPro' },
+    quantityForSale: { type: Number },
     image1: String,
     image2: String
 });
