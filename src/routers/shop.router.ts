@@ -34,11 +34,7 @@ shopRouter.get('/aonam/:page', (req, res, next) => {
     shopController.pagingProductsAoNam(req, res, next)
 })
 shopRouter.get('/quannam/:page', (req, res, next) => {
-    shopController.pagingProductsQuanNam(req, res, next)
-
-shopRouter.get('/all', (req, res, next) => {
-
-})
+    shopController.pagingProductsQuanNam(req, res, next) })
 
 shopRouter.get('/sortProductDesc', (req, res, next) => {
     shopController.sortProductsDesc(req, res, next)
