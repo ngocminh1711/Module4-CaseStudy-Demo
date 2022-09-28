@@ -2,6 +2,7 @@ import express from 'express'
 import { ShopController } from '../controllers/shop.controller';
 import {AuthController} from "../controllers/auth.controller";
 import passport from "../middleware/auth.midd";
+import userRouter from "./user.router";
 const multer = require('multer');
 
 const upload = multer();
@@ -60,5 +61,17 @@ shopRouter.get('/sortProducts0', (req, res, next) => {
 shopRouter.get('/sortProducts0/:page', (req, res, next) => {
     shopController.pagingSortProducts0(req, res, next)
 })
+shopRouter.post('/add-to-cart', (req, res, next) => {
+    shopController.addToCart(req, res, next)
+})
+
+shopRouter.get('/login/google', passport.authenticate('google', {scope: ['profile']}));
+
+shopRouter.get('/google/callback', passport.authenticate('google'),
+    async function (req, res) {
+
+
+        res.send("thanh cong")
+    });
 
 export default shopRouter;

@@ -39,7 +39,7 @@ class UserController {
             const user = new user_schema_1.default({ userName: data.username, password: data.password, name: data.name, email: data.email, phone: data.phone, address: data.nameAddress, city: data.city });
             await user.save();
             if (user) {
-                res.redirect('/admin');
+                res.redirect('/login');
             }
             else {
                 res.status(503).json({ message: 'error' });

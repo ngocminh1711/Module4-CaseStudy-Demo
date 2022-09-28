@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShopController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
 const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
+const cart_model_1 = require("../models/schemas/cart.model");
 class ShopController {
     async showFormShop(req, res, next) {
         let products = await product_schema_1.default.find();
@@ -170,6 +171,10 @@ class ShopController {
         let total = count;
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', { products: products, current: page, pages: totalPages });
+    }
+    async addToCart(req, res, next) {
+        let addProduct = await product_schema_1.default.findById(req.body.id);
+        cart_model_1.CartModel.save(addProduct);
     }
 }
 exports.ShopController = ShopController;
