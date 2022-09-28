@@ -1,7 +1,7 @@
 import {Request, Response,NextFunction} from "express";
 import Product from "../models/schemas/product.schema";
 import IdPro from "../models/schemas/idPro.product.schema";
-
+import {CartModel} from "../models/schemas/cart.model";
 
 export class ShopController {
 
@@ -183,10 +183,13 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('sort-product-0', {products: products, current: page, pages: totalPages})
     }
-    async showFormAll (req: Request, res: Response, next: NextFunction) {
-        let products = await Product.find()
 
-        res.render('all', {products : products});
-}
+    async addToCart(req: Request, res: Response, next: NextFunction) {
+       let addProduct = await Product.findById(req.body.id)
+
+        CartModel.save(addProduct)
+    }
+
+
 }
 
