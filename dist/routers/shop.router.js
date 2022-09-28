@@ -86,6 +86,9 @@ shopRouter.get('/sortProducts0', (req, res, next) => {
 shopRouter.get('/sortProducts0/:page', (req, res, next) => {
     shopController.pagingSortProducts0(req, res, next);
 });
+shopRouter.post('/add-to-cart', (req, res, next) => {
+    shopController.addToCart(req, res, next);
+});
 exports.default = shopRouter;
 
 //# sourceMappingURL=shop.router.js.map
