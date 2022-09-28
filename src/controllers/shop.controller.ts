@@ -32,27 +32,74 @@ export class ShopController {
     }
 
     async showFormAoNam(req: Request, res: Response, next: NextFunction) {
-        let page: any = req.params.page || 1;
-        let limit = 5;
-        let offset = 0;
-        if (page) {
-            offset = (page - 1) * limit;
-        }
-        let idPros = await IdPro.find({name: "ANA"});
-        let products = await Product.find({idPro: idPros}).limit(limit).skip(offset).populate('idPro');
-        let count = await Product.count({idPro: idPros}).populate('idPro');
-        let total = count;
-
-        let totalPages = Math.ceil(total / limit);
-
         if (req.headers.cookie) {
+            let cookieReq = cookie.parse(req.headers.cookie).cart;
+            let cartId = JSON.parse(cookieReq).cartId;
+
+
+
+            if ( fs.existsSync('./session/cart/' + cartId + '.txt')) {
+                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
+                let cartCookie = JSON.parse(dataCart)
+
+                let page: any = req.params.page || 1;
+                let limit = 5;
+                let offset = 0;
+                if (page) {
+                    offset = (page - 1) * limit;
+                }
+                let idPros = await IdPro.find({name: "ANA"});
+                let products = await Product.find({idPro: idPros}).limit(limit).skip(offset).populate('idPro');
+                let count = await Product.count({idPro: idPros}).populate('idPro');
+                let total = count;
+                let totalPages = Math.ceil(total / limit);
+
+                res.render('aonam', {products: products, current: page, pages: totalPages, cartCookie: cartCookie});
+            }
 
         }
+                let cartCookie = {
+                    items: [],
+                    totalMoney: 0,
+                    totalQuantity: 0,
+                }
+                let page: any = req.params.page || 1;
+                let limit = 5;
+                let offset = 0;
+                if (page) {
+                    offset = (page - 1) * limit;
+                }
+                let idPros = await IdPro.find({name: "ANA"});
+                let products = await Product.find({idPro: idPros}).limit(limit).skip(offset).populate('idPro');
+                let count = await Product.count({idPro: idPros}).populate('idPro');
+                let total = count;
+
+                let totalPages = Math.ceil(total / limit);
+
+                res.render('aonam', {products: products, current: page, pages: totalPages, cartCookie: cartCookie});
+
+        //     }
+        // }
+        // else{
+        //     let page: any = req.params.page || 1;
+        //     let limit = 5;
+        //     let offset = 0;
+        //     if (page) {
+        //         offset = (page - 1) * limit;
+        //     }
+        //     let idPros = await IdPro.find({name: "ANA"});
+        //     let products = await Product.find({idPro: idPros}).limit(limit).skip(offset).populate('idPro');
+        //     let count = await Product.count({idPro: idPros}).populate('idPro');
+        //     let total = count;
+        //
+        //     let totalPages = Math.ceil(total / limit);
+        //
+        //     res.render('aonam', {products: products, current: page, pages: totalPages});
+        // }
 
 
-
-        res.render('aonam', {products: products, current: page, pages: totalPages});
     }
+
 
     async pagingProductsAoNam(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
@@ -236,9 +283,10 @@ export class ShopController {
                     cart.totalMoney += product.price;
                     cart.totalQuantity += 1;
 
+                    console.log(cart)
                     // ghi de lai file
                     fs.writeFile('./session/cart/' + cartId + '.txt', JSON.stringify(cart), (err) =>{
-                        res.end();
+                        res.end(String(cart.totalQuantity))
                     })
 
 
@@ -257,7 +305,7 @@ export class ShopController {
 
                         res.setHeader('set-cookie', cookies)
 
-                        res.end();
+                        res.end()
                     })
                 }
 
@@ -273,7 +321,7 @@ export class ShopController {
 
                     res.setHeader('set-cookie', cookies)
 
-                    res.end();
+                    res.end()
                 })
             }
 
@@ -289,19 +337,16 @@ export class ShopController {
 
                 res.setHeader('set-cookie', cookies)
 
-                res.end();
+                res.end()
             })
         }
 
-
-
-
-        // let addProduct = await Product.findById(req.body.id)
-        //
-        // CartModel.save(addProduct)
-        // let productsInCart = await CartModel.getCart();
-        // console.log(productsInCart)
-
     }
 }
+
+
+
+
+
+
 
