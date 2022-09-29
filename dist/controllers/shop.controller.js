@@ -6,8 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShopController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
 const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
-const fs = require("fs");
-const cookie = require("cookie");
+const cart_model_1 = require("../models/schemas/cart.model");
 class ShopController {
     async showFormShop(req, res, next) {
         let products = await product_schema_1.default.find();
@@ -39,27 +38,11 @@ class ShopController {
         let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
         let total = count;
         let totalPages = Math.ceil(total / limit);
-        if (req.headers.cookie) {
-            let cookieReq = cookie.parse(req.headers.cookie).cart;
-            let cartId = JSON.parse(cookieReq).cartId;
-            if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
-                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
-                let cartCookie = JSON.parse(dataCart);
-                res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
-            }
-        }
-        else {
-            let cartCookie = {
-                items: [],
-                totalMoney: 0,
-                totalQuantity: 0,
-            };
-            res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
-        }
+        res.render('aonam', { products: products, current: page, pages: totalPages });
     }
     async pagingProductsAoNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -73,7 +56,7 @@ class ShopController {
     }
     async pagingProductsQuanNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -87,7 +70,7 @@ class ShopController {
     }
     async sortProductsDesc(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -100,7 +83,7 @@ class ShopController {
     }
     async pagingSortProductsDesc(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -113,7 +96,7 @@ class ShopController {
     }
     async sortProductsIncrease(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -126,7 +109,7 @@ class ShopController {
     }
     async pagingSortProductsIncrease(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -139,7 +122,7 @@ class ShopController {
     }
     async sortProducts500(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -152,7 +135,7 @@ class ShopController {
     }
     async pagingSortProducts500(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -165,7 +148,7 @@ class ShopController {
     }
     async sortProducts0(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -178,7 +161,7 @@ class ShopController {
     }
     async pagingSortProducts0(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 10;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -190,84 +173,8 @@ class ShopController {
         res.render('sort-product-0', { products: products, current: page, pages: totalPages });
     }
     async addToCart(req, res, next) {
-        let idProduct = req.body.idProduct;
-        let product = await product_schema_1.default.findById(idProduct);
-        let cart = {
-            items: [product],
-            totalMoney: product.price,
-            totalQuantity: 1
-        };
-        if (req.headers.cookie) {
-            let cookieReq = cookie.parse(req.headers.cookie).cart;
-            if (cookieReq) {
-                let cartId = JSON.parse(cookieReq).cartId;
-                if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
-                    let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
-                    cart = JSON.parse(dataCart);
-                    cart.items.push(product);
-                    cart.totalMoney += product.price;
-                    cart.totalQuantity += 1;
-                    console.log(cart);
-                    fs.writeFile('./session/cart/' + cartId + '.txt', JSON.stringify(cart), (err) => {
-                        res.end(String(cart.totalQuantity));
-                    });
-                }
-                else {
-                    let nameFile = Date.now();
-                    fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err) => {
-                        let cartCookie = {
-                            cartId: nameFile
-                        };
-                        let cookies = cookie.serialize('cart', JSON.stringify(cartCookie));
-                        res.setHeader('set-cookie', cookies);
-                        res.end();
-                    });
-                }
-            }
-            else {
-                let nameFile = Date.now();
-                fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err) => {
-                    let cartCookie = {
-                        cartId: nameFile
-                    };
-                    let cookies = cookie.serialize('cart', JSON.stringify(cartCookie));
-                    res.setHeader('set-cookie', cookies);
-                    res.end();
-                });
-            }
-        }
-        else {
-            let nameFile = Date.now();
-            fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err) => {
-                let cartCookie = {
-                    cartId: nameFile
-                };
-                let cookies = cookie.serialize('cart', JSON.stringify(cartCookie));
-                res.setHeader('set-cookie', cookies);
-                res.end();
-            });
-        }
-    }
-    async getCart(req, res, next) {
-        if (req.headers.cookie) {
-            let cookieReq = cookie.parse(req.headers.cookie).cart;
-            let cartId = JSON.parse(cookieReq).cartId;
-            if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
-                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
-                let cartCookie = JSON.parse(dataCart);
-                console.log(cartCookie);
-                res.json({ cartCookie: cartCookie });
-            }
-        }
-        else {
-            let cartCookie = {
-                items: [],
-                totalMoney: 0,
-                totalQuantity: 0,
-            };
-            console.log(cartCookie);
-            res.json({ cartCookie: cartCookie });
-        }
+        let addProduct = await product_schema_1.default.findById(req.body.id);
+        cart_model_1.CartModel.save(addProduct);
     }
 }
 exports.ShopController = ShopController;
