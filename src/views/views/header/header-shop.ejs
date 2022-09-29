@@ -21,11 +21,11 @@
                             <div class="megamenu">
                                 <ul class="single-mega cn-col-4">
                                     <li class="title">Men's Collection</li>
+                                    <li><a href="/all">ALL</a></li>
                                     <li><a href="/aonam">T-Shirts</a></li>
                                     <li><a href="/quannam">Pants</a></li>
-                                    <li><a href="shop.html">Shirts</a></li>
-                                    <li><a href="shop.html">Jackets</a></li>
-                                    <li><a href="shop.html">Trench</a></li>
+
+
                                 </ul>
                                 <div class="single-mega cn-col-4">
                                     <img src="img/bg-img/bg-6.jpg" alt="">
@@ -35,12 +35,9 @@
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="/">Home</a></li>
-                                <li><a href="shop.html">Shop</a></li>
-                                <li><a href="single-product-details.html">Product Details</a></li>
+                                <li><a href="/all">Shop</a></li>
                                 <li><a href="checkout.html">Checkout</a></li>
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="single-blog.html">Single Blog</a></li>
-                                <li><a href="regular-page.html">Regular Page</a></li>
                                 <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </li>
@@ -67,11 +64,13 @@
             </div>
             <!-- User Login Info -->
             <div class="user-login-info">
-                <a href="#"><img src="/img/core-img/user.svg" alt=""></a>
+
+                <a href="/login"><img src="/img/core-img/user.svg" alt=""></a>
+
             </div>
             <!-- Cart Area -->
             <div class="cart-area">
-                <a href="#" id="essenceCartBtn"><img src="/img/core-img/bag.svg" alt=""> <span>3</span></a>
+                <a href="#" id="essenceCartBtn"><img src="/img/core-img/bag.svg" alt=""> <span><%= cartCookie.totalQuantity%></span></a>
             </div>
         </div>
 

@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShopController = void 0;
 const product_schema_1 = __importDefault(require("../models/schemas/product.schema"));
 const idPro_product_schema_1 = __importDefault(require("../models/schemas/idPro.product.schema"));
-const cart_model_1 = require("../models/schemas/cart.model");
+const fs = require("fs");
+const cookie = require("cookie");
 class ShopController {
     async showFormShop(req, res, next) {
         let products = await product_schema_1.default.find();
@@ -27,6 +28,31 @@ class ShopController {
         res.render('quannam', { products: products, current: page, pages: totalPages });
     }
     async showFormAoNam(req, res, next) {
+        if (req.headers.cookie) {
+            let cookieReq = cookie.parse(req.headers.cookie).cart;
+            let cartId = JSON.parse(cookieReq).cartId;
+            if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
+                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
+                let cartCookie = JSON.parse(dataCart);
+                let page = req.params.page || 1;
+                let limit = 5;
+                let offset = 0;
+                if (page) {
+                    offset = (page - 1) * limit;
+                }
+                let idPros = await idPro_product_schema_1.default.find({ name: "ANA" });
+                let products = await product_schema_1.default.find({ idPro: idPros }).limit(limit).skip(offset).populate('idPro');
+                let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
+                let total = count;
+                let totalPages = Math.ceil(total / limit);
+                res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
+            }
+        }
+        let cartCookie = {
+            items: [],
+            totalMoney: 0,
+            totalQuantity: 0,
+        };
         let page = req.params.page || 1;
         let limit = 5;
         let offset = 0;
@@ -38,7 +64,7 @@ class ShopController {
         let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
         let total = count;
         let totalPages = Math.ceil(total / limit);
-        res.render('aonam', { products: products, current: page, pages: totalPages });
+        res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
     }
     async pagingProductsAoNam(req, res, next) {
         let page = req.params.page || 1;
@@ -173,8 +199,63 @@ class ShopController {
         res.render('sort-product-0', { products: products, current: page, pages: totalPages });
     }
     async addToCart(req, res, next) {
-        let addProduct = await product_schema_1.default.findById(req.body.id);
-        cart_model_1.CartModel.save(addProduct);
+        let idProduct = req.body.idProduct;
+        let product = await product_schema_1.default.findById(idProduct);
+        let cart = {
+            items: [product],
+            totalMoney: product.price,
+            totalQuantity: 1
+        };
+        if (req.headers.cookie) {
+            let cookieReq = cookie.parse(req.headers.cookie).cart;
+            if (cookieReq) {
+                let cartId = JSON.parse(cookieReq).cartId;
+                if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
+                    let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
+                    cart = JSON.parse(dataCart);
+                    cart.items.push(product);
+                    cart.totalMoney += product.price;
+                    cart.totalQuantity += 1;
+                    console.log(cart);
+                    fs.writeFile('./session/cart/' + cartId + '.txt', JSON.stringify(cart), (err) => {
+                        res.end(String(cart.totalQuantity));
+                    });
+                }
+                else {
+                    let nameFile = Date.now();
+                    fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err) => {
+                        let cartCookie = {
+                            cartId: nameFile
+                        };
+                        let cookies = cookie.serialize('cart', JSON.stringify(cartCookie));
+                        res.setHeader('set-cookie', cookies);
+                        res.end();
+                    });
+                }
+            }
+            else {
+                let nameFile = Date.now();
+                fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err) => {
+                    let cartCookie = {
+                        cartId: nameFile
+                    };
+                    let cookies = cookie.serialize('cart', JSON.stringify(cartCookie));
+                    res.setHeader('set-cookie', cookies);
+                    res.end();
+                });
+            }
+        }
+        else {
+            let nameFile = Date.now();
+            fs.writeFile('./session/cart/' + nameFile + '.txt', JSON.stringify(cart), (err) => {
+                let cartCookie = {
+                    cartId: nameFile
+                };
+                let cookies = cookie.serialize('cart', JSON.stringify(cartCookie));
+                res.setHeader('set-cookie', cookies);
+                res.end();
+            });
+        }
     }
 }
 exports.ShopController = ShopController;
