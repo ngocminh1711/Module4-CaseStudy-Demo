@@ -61,6 +61,9 @@ shopRouter.get('/sortProducts0/:page', (req, res, next) => {
 shopRouter.post('/add-to-cart', (req, res, next) => {
     shopController.addToCart(req, res, next);
 });
+shopRouter.get('/get-cart', (req, res, next) => {
+    shopController.getCart(req, res, next);
+});
 shopRouter.get('/login/google', auth_midd_1.default.authenticate('google', { scope: ['profile'] }));
 shopRouter.get('/google/callback', auth_midd_1.default.authenticate('google'), async function (req, res) {
     res.send("thanh cong");

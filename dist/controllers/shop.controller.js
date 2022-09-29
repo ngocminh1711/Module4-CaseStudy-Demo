@@ -28,31 +28,6 @@ class ShopController {
         res.render('quannam', { products: products, current: page, pages: totalPages });
     }
     async showFormAoNam(req, res, next) {
-        if (req.headers.cookie) {
-            let cookieReq = cookie.parse(req.headers.cookie).cart;
-            let cartId = JSON.parse(cookieReq).cartId;
-            if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
-                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
-                let cartCookie = JSON.parse(dataCart);
-                let page = req.params.page || 1;
-                let limit = 5;
-                let offset = 0;
-                if (page) {
-                    offset = (page - 1) * limit;
-                }
-                let idPros = await idPro_product_schema_1.default.find({ name: "ANA" });
-                let products = await product_schema_1.default.find({ idPro: idPros }).limit(limit).skip(offset).populate('idPro');
-                let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
-                let total = count;
-                let totalPages = Math.ceil(total / limit);
-                res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
-            }
-        }
-        let cartCookie = {
-            items: [],
-            totalMoney: 0,
-            totalQuantity: 0,
-        };
         let page = req.params.page || 1;
         let limit = 5;
         let offset = 0;
@@ -64,11 +39,27 @@ class ShopController {
         let count = await product_schema_1.default.count({ idPro: idPros }).populate('idPro');
         let total = count;
         let totalPages = Math.ceil(total / limit);
-        res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
+        if (req.headers.cookie) {
+            let cookieReq = cookie.parse(req.headers.cookie).cart;
+            let cartId = JSON.parse(cookieReq).cartId;
+            if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
+                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
+                let cartCookie = JSON.parse(dataCart);
+                res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
+            }
+        }
+        else {
+            let cartCookie = {
+                items: [],
+                totalMoney: 0,
+                totalQuantity: 0,
+            };
+            res.render('aonam', { products: products, current: page, pages: totalPages, cartCookie: cartCookie });
+        }
     }
     async pagingProductsAoNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -82,7 +73,7 @@ class ShopController {
     }
     async pagingProductsQuanNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -96,7 +87,7 @@ class ShopController {
     }
     async sortProductsDesc(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -109,7 +100,7 @@ class ShopController {
     }
     async pagingSortProductsDesc(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -122,7 +113,7 @@ class ShopController {
     }
     async sortProductsIncrease(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -135,7 +126,7 @@ class ShopController {
     }
     async pagingSortProductsIncrease(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -148,7 +139,7 @@ class ShopController {
     }
     async sortProducts500(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -161,7 +152,7 @@ class ShopController {
     }
     async pagingSortProducts500(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -174,7 +165,7 @@ class ShopController {
     }
     async sortProducts0(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -187,7 +178,7 @@ class ShopController {
     }
     async pagingSortProducts0(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 5;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -255,6 +246,27 @@ class ShopController {
                 res.setHeader('set-cookie', cookies);
                 res.end();
             });
+        }
+    }
+    async getCart(req, res, next) {
+        if (req.headers.cookie) {
+            let cookieReq = cookie.parse(req.headers.cookie).cart;
+            let cartId = JSON.parse(cookieReq).cartId;
+            if (fs.existsSync('./session/cart/' + cartId + '.txt')) {
+                let dataCart = fs.readFileSync('./session/cart/' + cartId + '.txt', 'utf8');
+                let cartCookie = JSON.parse(dataCart);
+                console.log(cartCookie);
+                res.json({ cartCookie: cartCookie });
+            }
+        }
+        else {
+            let cartCookie = {
+                items: [],
+                totalMoney: 0,
+                totalQuantity: 0,
+            };
+            console.log(cartCookie);
+            res.json({ cartCookie: cartCookie });
         }
     }
 }

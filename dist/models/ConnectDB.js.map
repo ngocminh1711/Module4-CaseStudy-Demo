@@ -1,1 +1,1 @@
-{"version":3,"file":"ConnectDB.js","sourceRoot":"","sources":["../../src/models/ConnectDB.ts"],"names":[],"mappings":";;;;;;AAAA,wDAAgC;AAGhC,MAAa,SAAS;IAClB,KAAK,CAAC,OAAO;QACT,MAAM,kBAAQ,CAAC,OAAO,CAAC,uEAAuE,CAAC,CAAA;IACnG,CAAC;CACJ;AAJD,8BAIC"}
+{"version":3,"file":"ConnectDB.js","sourceRoot":"","sources":["../../src/models/ConnectDB.ts"],"names":[],"mappings":";;;;;;AAAA,wDAAgC;AAGhC,MAAa,SAAS;IAClB,KAAK,CAAC,OAAO;QACT,MAAM,kBAAQ,CAAC,OAAO,CAAC,qCAAqC,CAAC,CAAA;IACjE,CAAC;CACJ;AAJD,8BAIC"}

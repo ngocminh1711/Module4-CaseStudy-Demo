@@ -64,6 +64,9 @@ shopRouter.get('/sortProducts0/:page', (req, res, next) => {
 shopRouter.post('/add-to-cart', (req, res, next) => {
     shopController.addToCart(req, res, next)
 })
+shopRouter.get('/get-cart', (req, res, next) => {
+    shopController.getCart(req, res, next)
+})
 
 shopRouter.get('/login/google', passport.authenticate('google', {scope: ['profile']}));
 
