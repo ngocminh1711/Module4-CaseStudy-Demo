@@ -78,6 +78,9 @@ shopRouter.post('/add-to-cart', (req, res, next) => {
 shopRouter.get('/get-cart', (req, res, next) => {
     shopController.getCart(req, res, next)
 })
+shopRouter.delete('/delete-cart', (req, res, next) => {
+    shopController.deleteCart(req, res, next)
+})
 
 shopRouter.get('/login/google', passport.authenticate('google', {scope: ['profile']}));
 

@@ -22,26 +22,7 @@
         <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span></span></a>
     </div>
 
-    <div class="cart-content d-flex">
-         <!-- Cart List Area -->
-
-        <div class="cart-list" id="cart-list">
-
-        </div>
-
-        <!-- Cart Summary -->
-        <div class="cart-amount-summary">
-
-            <h2>Summary</h2>
-            <ul class="summary-table">
-                <li><span>Quantity:</span> <span id="quantity-cart"></span></li>
-                <li><span>total:</span> <span id="total-cart"></span></li>
-            </ul>
-            <div class="checkout-btn mt-100">
-                <a href="checkout.html" class="btn essence-btn">check out</a>
-            </div>
-        </div>
-    </div>
+    <%- include ('header/cart-shop')%>
 </div>
 
 <!-- ##### Right Side Cart End ##### -->
@@ -194,58 +175,92 @@
 
 
 
-<script>
-    let original = window.origin
-    function addToCart(idProduct){
-        $.ajax({
-            url: `${original}/add-to-cart`,
-            method: 'POST',
-            headers: {
-                cookie: document.cookie
-            },
-            data: {
-                idProduct: idProduct
-            },
-            success: (res) => {
-                $('#essenceCartBtn').html(res)
-                console.log(res)
-            }
-        })
-    }
+<!--<script>-->
+<!--    let original = window.origin-->
+<!--    function addToCart(idProduct){-->
+<!--        $.ajax({-->
+<!--            url: `${original}/add-to-cart`,-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                cookie: document.cookie-->
+<!--            },-->
+<!--            data: {-->
+<!--                idProduct: idProduct-->
+<!--            },-->
+<!--            success: (res) => {-->
+<!--                $('#essenceCartBtn').html( ` <img src="/img/core-img/bag.svg" alt=""><span>${res}</span> `)-->
+<!--            }-->
+<!--        })-->
+<!--    }-->
 
-    function getCart(){
+<!--    function getCart(){-->
 
-        $.ajax({
-            url: `${original}/get-cart`,
-            method: 'GET',
-            headers: {
-                cookie: document.cookie
-            },
-            success: (res) => {
-                let html = ''
-                for (let i = 0; i < res.cartCookie.items.length; i++) {
-                    console.log(res.cartCookie.items[i])
-                    html += `<div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="${res.cartCookie.items[i].image1}" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                            <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <h6>${res.cartCookie.items[i].name}</h6>
+<!--        $.ajax({-->
+<!--            url: `${original}/get-cart`,-->
+<!--            method: 'GET',-->
+<!--            headers: {-->
+<!--                cookie: document.cookie-->
+<!--            },-->
+<!--            success: (res) => {-->
+<!--                let html = ''-->
+<!--                for (let i = 0; i < res.cartCookie.items.length; i++) {-->
+<!--                    console.log(res.cartCookie.items[i])-->
+<!--                    html += `<div class="single-cart-item">-->
+<!--                    <a href="#" class="product-image">-->
+<!--                        <img src="${res.cartCookie.items[i].image1}" class="cart-thumb" alt="">-->
+<!--                        &lt;!&ndash; Cart Item Desc &ndash;&gt;-->
+<!--                        <div class="cart-item-desc">-->
+<!--                            <span  class="product-remove"><i  onclick="deleteCart('${res.cartCookie.items[i]._id}')" class="fa fa-close" aria-hidden="true"></i></span>-->
+<!--                            <h6>${res.cartCookie.items[i].name}</h6>-->
 
-                            <p class="price">${res.cartCookie.items[i].price}</p>
-                        </div>
-                    </a>
-                </div>`
-                }
-                $('#cart-list').html(html)
-                $('#quantity-cart').html(res.cartCookie.totalQuantity);
-                $('#total-cart').html(res.cartCookie.totalMoney);
+<!--                            <p class="price">${res.cartCookie.items[i].price}</p>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>`-->
+<!--                }-->
+<!--                $('#cart-list').html(html)-->
+<!--                $('#quantity-cart').html(res.cartCookie.totalQuantity);-->
+<!--                $('#total-cart').html(res.cartCookie.totalMoney);-->
 
-            }
-        })
-    }
-</script>
+<!--            }-->
+<!--        })-->
+<!--    }-->
+<!--    function deleteCart(idProduct) {-->
+<!--        $.ajax({-->
+<!--            url: `${original}/delete-cart`,-->
+<!--            method: 'DELETE',-->
+<!--            headers: {-->
+<!--                cookie: document.cookie-->
+<!--            },-->
+<!--            data: {-->
+<!--                idProduct: idProduct,-->
+<!--            },-->
+<!--            success: (res) => {-->
+<!--                let html = ''-->
+<!--                for (let i = 0; i < res.cartCookie.items.length; i++) {-->
+<!--                    console.log(res.cartCookie.items[i])-->
+<!--                    html += `<div class="single-cart-item">-->
+<!--                    <a href="#" class="product-image">-->
+<!--                        <img src="${res.cartCookie.items[i].image1}" class="cart-thumb" alt="">-->
+<!--                        &lt;!&ndash; Cart Item Desc &ndash;&gt;-->
+<!--                        <div class="cart-item-desc">-->
+<!--                            <span  class="product-remove"><i  onclick="deleteCart('${res.cartCookie.items[i]._id}')" class="fa fa-close" aria-hidden="true"></i></span>-->
+<!--                            <h6>${res.cartCookie.items[i].name}</h6>-->
+
+<!--                            <p class="price">${res.cartCookie.items[i].price}</p>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>`-->
+<!--                }-->
+
+<!--                $('#cart-list').html(html)-->
+<!--                $('#quantity-cart').html(res.cartCookie.totalQuantity);-->
+<!--                $('#total-cart').html(res.cartCookie.totalMoney);-->
+<!--                $('#essenceCartBtn').html( ` <img src="/img/core-img/bag.svg" alt=""><span>${res.cartCookie.totalQuantity}</span> `)-->
+<!--            }-->
+<!--        })-->
+<!--    }-->
+<!--</script>-->
 </body>
 
 </html>
