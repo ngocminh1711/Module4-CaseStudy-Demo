@@ -2,7 +2,8 @@ import express from 'express'
 import { ShopController } from '../controllers/shop.controller';
 import {AuthController} from "../controllers/auth.controller";
 import passport from "../middleware/auth.midd";
-import userRouter from "./user.router";
+
+import checkPermissionMiddleware from "../middleware/checkPermission.middleware";
 const multer = require('multer');
 
 const upload = multer();
@@ -14,7 +15,7 @@ const shopController = new ShopController();
 
 const authController = new AuthController();
 
-shopRouter.get('/login', function (req, res, next) {
+shopRouter.get('/login',function (req, res, next) {
     authController.showFormLogin(req, res, next);
 })
 shopRouter.post('/login',upload.none(), passport.authenticate('local', {

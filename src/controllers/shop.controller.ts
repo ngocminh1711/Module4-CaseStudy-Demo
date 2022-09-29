@@ -225,8 +225,5 @@ export class ShopController {
         CartModel.save(addProduct)
     }
 
-
-
-
 }
 
