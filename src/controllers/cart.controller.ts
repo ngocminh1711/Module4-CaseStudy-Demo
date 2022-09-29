@@ -1,11 +1,13 @@
 
 
-module.exports = class CartController {
+export class CartController {
 
 
-    async addToCart(req, res, next) {
+    addToCart(req, res) {
+
 
         let cart = {
+
 
         }
     }

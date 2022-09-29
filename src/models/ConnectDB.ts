@@ -3,6 +3,6 @@ import mongoose from "mongoose";
 
 export class ConnectDB {
     async connect() {
-        await mongoose.connect('mongodb://localhost:27017/Module4CS')
+        await mongoose.connect('mongodb+srv://thao:thao1234@casestudy4.hrswjtf.mongodb.net/Casestudy4')
     }
 }

@@ -41,7 +41,7 @@ export class UserController {
 
             await user.save();
             if (user){
-                res.redirect('/admin')
+                res.redirect('/login')
             }
             else {
                 res.status(503).json({message: 'error'})
