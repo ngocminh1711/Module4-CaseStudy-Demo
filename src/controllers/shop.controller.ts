@@ -12,7 +12,7 @@ export class ShopController {
 
     async showFormQuanNam(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 5;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -27,9 +27,11 @@ export class ShopController {
         res.render('quannam', {products: products,current: page, pages: totalPages});
     }
 
+
+
     async showFormAoNam(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 5;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -42,11 +44,27 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
 
         res.render('aonam', {products: products,current: page, pages: totalPages});
+    }
+
+    async showFormAll(req: Request, res: Response, next: NextFunction) {
+        let page : any = req.params.page || 1;
+        let limit = 6;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await Product.find().limit(limit).skip(offset)
+        let count = await Product.count()
+        let total = count;
+
+        let totalPages = Math.ceil(total / limit);
+
+        res.render('all', {products: products,current: page, pages: totalPages});
     }
 
     async pagingProductsAoNam(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -60,9 +78,10 @@ export class ShopController {
 
         res.render('aonam', {products: products,current: page, pages: totalPages});
     }
+
     async pagingProductsQuanNam(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -75,12 +94,28 @@ export class ShopController {
         let totalPages = Math.ceil(total / limit);
 
         res.render('quannam', {products: products,current: page, pages: totalPages});
+    }
+
+    async pagingProductsAll(req: Request, res: Response, next: NextFunction) {
+        let page : any = req.params.page || 1;
+        let limit =6;// số lượng sản phẩm xuất hiện trên 1 page
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await Product.find().limit(limit).skip(offset)
+        let count = await Product.count()
+        let total = count;
+
+        let totalPages = Math.ceil(total / limit);
+
+        res.render('all', {products: products,current: page, pages: totalPages});
     }
 
 
     async sortProductsDesc(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -93,7 +128,7 @@ export class ShopController {
     }
     async pagingSortProductsDesc(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -106,7 +141,7 @@ export class ShopController {
     }
     async sortProductsIncrease(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -119,7 +154,7 @@ export class ShopController {
     }
     async pagingSortProductsIncrease(req: Request, res: Response, next: NextFunction) {
         let page : any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -132,7 +167,7 @@ export class ShopController {
     }
     async sortProducts500(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -145,7 +180,7 @@ export class ShopController {
     }
     async pagingSortProducts500(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -159,7 +194,7 @@ export class ShopController {
 
     async sortProducts0(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -172,7 +207,7 @@ export class ShopController {
     }
     async pagingSortProducts0(req: Request, res: Response, next: NextFunction) {
         let page: any = req.params.page || 1;
-        let limit = 10;// số lượng sản phẩm xuất hiện trên 1 page
+        let limit = 6;// số lượng sản phẩm xuất hiện trên 1 page
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -189,6 +224,8 @@ export class ShopController {
 
         CartModel.save(addProduct)
     }
+
+
 
 
 }

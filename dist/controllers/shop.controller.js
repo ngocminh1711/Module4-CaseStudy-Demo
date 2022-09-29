@@ -14,7 +14,7 @@ class ShopController {
     }
     async showFormQuanNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -28,7 +28,7 @@ class ShopController {
     }
     async showFormAoNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 5;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -40,9 +40,22 @@ class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('aonam', { products: products, current: page, pages: totalPages });
     }
+    async showFormAll(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 6;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find().limit(limit).skip(offset);
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('all', { products: products, current: page, pages: totalPages });
+    }
     async pagingProductsAoNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -56,7 +69,7 @@ class ShopController {
     }
     async pagingProductsQuanNam(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -68,9 +81,22 @@ class ShopController {
         let totalPages = Math.ceil(total / limit);
         res.render('quannam', { products: products, current: page, pages: totalPages });
     }
+    async pagingProductsAll(req, res, next) {
+        let page = req.params.page || 1;
+        let limit = 6;
+        let offset = 0;
+        if (page) {
+            offset = (page - 1) * limit;
+        }
+        let products = await product_schema_1.default.find().limit(limit).skip(offset);
+        let count = await product_schema_1.default.count();
+        let total = count;
+        let totalPages = Math.ceil(total / limit);
+        res.render('all', { products: products, current: page, pages: totalPages });
+    }
     async sortProductsDesc(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -83,7 +109,7 @@ class ShopController {
     }
     async pagingSortProductsDesc(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -96,7 +122,7 @@ class ShopController {
     }
     async sortProductsIncrease(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -109,7 +135,7 @@ class ShopController {
     }
     async pagingSortProductsIncrease(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -122,7 +148,7 @@ class ShopController {
     }
     async sortProducts500(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -135,7 +161,7 @@ class ShopController {
     }
     async pagingSortProducts500(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -148,7 +174,7 @@ class ShopController {
     }
     async sortProducts0(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
@@ -161,7 +187,7 @@ class ShopController {
     }
     async pagingSortProducts0(req, res, next) {
         let page = req.params.page || 1;
-        let limit = 10;
+        let limit = 6;
         let offset = 0;
         if (page) {
             offset = (page - 1) * limit;
