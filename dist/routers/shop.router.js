@@ -28,11 +28,17 @@ shopRouter.get('/quannam', (req, res, next) => {
 shopRouter.get('/aonam', (req, res, next) => {
     shopController.showFormAoNam(req, res, next);
 });
+shopRouter.get('/all', (req, res, next) => {
+    shopController.showFormAll(req, res, next);
+});
 shopRouter.get('/aonam/:page', (req, res, next) => {
     shopController.pagingProductsAoNam(req, res, next);
 });
 shopRouter.get('/quannam/:page', (req, res, next) => {
     shopController.pagingProductsQuanNam(req, res, next);
+});
+shopRouter.get('/all/:page', (req, res, next) => {
+    shopController.pagingProductsAll(req, res, next);
 });
 shopRouter.get('/sortProductDesc', (req, res, next) => {
     shopController.sortProductsDesc(req, res, next);
@@ -60,6 +66,12 @@ shopRouter.get('/sortProducts0/:page', (req, res, next) => {
 });
 shopRouter.post('/add-to-cart', (req, res, next) => {
     shopController.addToCart(req, res, next);
+});
+shopRouter.get('/get-cart', (req, res, next) => {
+    shopController.getCart(req, res, next);
+});
+shopRouter.delete('/delete-cart', (req, res, next) => {
+    shopController.deleteCart(req, res, next);
 });
 shopRouter.get('/login/google', auth_midd_1.default.authenticate('google', { scope: ['profile'] }));
 shopRouter.get('/google/callback', auth_midd_1.default.authenticate('google'), async function (req, res) {

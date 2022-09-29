@@ -7,7 +7,7 @@ exports.ConnectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 class ConnectDB {
     async connect() {
-        await mongoose_1.default.connect('mongodb+srv://thao:thao1234@casestudy4.hrswjtf.mongodb.net/Casestudy4');
+        await mongoose_1.default.connect('mongodb://localhost:27017/Module4CS');
     }
 }
 exports.ConnectDB = ConnectDB;
