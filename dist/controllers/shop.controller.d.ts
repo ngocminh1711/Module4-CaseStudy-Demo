@@ -14,4 +14,5 @@ export declare class ShopController {
     sortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
     pagingSortProducts0(req: Request, res: Response, next: NextFunction): Promise<void>;
     addToCart(req: Request, res: Response, next: NextFunction): Promise<void>;
+    getCart(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
